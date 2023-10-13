@@ -2,7 +2,7 @@ services:
   MySQL:
     image: 'mysql:latest'
     ports:
-      - '3306:3306'
+      - '3305:3306'
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - 'MYSQL_DATABASE=nojira'
