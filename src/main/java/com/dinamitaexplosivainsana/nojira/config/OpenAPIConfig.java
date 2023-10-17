@@ -13,7 +13,7 @@ public class OpenAPIConfig {
                 .version("v0.0.1")
                 .description("Nojira is an MVC application that includes the functionalities of Jira, but without being Jira.")
                 .license(new License()
-                        .name("Apache 2.0")
+                        .name("Github Repository")
                         .url("https://github.com/AbrahamXTS/Nojira")
                 )
         );

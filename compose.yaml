@@ -1,5 +1,5 @@
 services:
-  MySQL:
+  mysql:
     image: 'mysql:latest'
     ports:
       - '3305:3306'
@@ -12,5 +12,15 @@ services:
       - persistent:/var/lib/mysql
     networks:
       - default
+  phpmyadmin:
+    image: 'phpmyadmin:latest'
+    links:
+      - mysql:db
+    ports:
+      - 8000:80
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
 volumes:
   persistent:

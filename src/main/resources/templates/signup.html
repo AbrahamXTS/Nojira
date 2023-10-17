@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Nojira | Registro</title>
+</head>
+<body>
+<form method="POST" th:action="@{/auth/signup}">
+    <label for="fullName">Nombre completo: </label>
+    <input id="fullName" name="fullName" type="text"/>
+
+    <label for="email">Correo electrónico: </label>
+    <input id="email" name="email" type="text"/>
+
+    <label for="password">Contraseña: </label>
+    <input id="password" name="password" type="password"/>
+
+    <button type="submit">Crear cuenta</button>
+</form>
+</body>
+</html>
