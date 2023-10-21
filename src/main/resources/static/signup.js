@@ -2,12 +2,12 @@
 
 const cleanInputButtons = document.querySelectorAll(".close-btn");
 
-cleanInputButtons.forEach((closeButton) => {
-    closeButton.addEventListener("click", () => {
-        const input = closeButton.parentElement.querySelector("input");
+cleanInputButtons.forEach((cleanInputButton) => {
+  cleanInputButton.addEventListener("click", () => {
+    const input = cleanInputButton.parentElement.querySelector("input");
 
-        if (input) {
-            input.value = "";
-        }
-    });
+    if (input) {
+      input.value = "";
+    }
+  });
 });
