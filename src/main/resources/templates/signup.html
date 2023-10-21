@@ -7,136 +7,251 @@
     <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
     <title>Nojira | Registro de usuarios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
+            rel="stylesheet"
+    />
 </head>
 
 <body>
 <div class="flex items-center justify-center h-screen">
-    <div class="w-11/12 max-w-lg  p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-16 dark:bg-white-800">
+    <div
+            class="w-11/12 max-w-lg p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-16 dark:bg-white-800"
+    >
         <form class="space-y-5" method="POST" th:action="@{/auth/signup}">
-            <h5 class="text-3xl  text-center font-bold  text-purple-700 dark:text-purple-700">¡Bienvenido a Nojira!</h5>
+            <h5
+                    class="text-3xl text-center font-bold text-purple-700 dark:text-purple-700"
+            >
+                ¡Bienvenido a Nojira!
+            </h5>
 
             <div class="input-container">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                       for="fullName">Nombre</label>
+                <label
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                        for="fullName"
+                >Nombre</label
+                >
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-1  flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-4 h-4 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
+                    <div
+                            class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none"
+                    >
+                        <svg
+                                aria-hidden="true"
+                                class="w-4 h-4 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"
+                            />
                         </svg>
                     </div>
                     <input
                             id="fullName"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5  dark:bg-purple-5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                             name="fullName"
                             placeholder="Nombre"
                             type="text"
+                    />
+                    <button
+                            class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                            type="button"
                     >
-                    <button class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
-                            type="button">
-                        <svg aria-hidden="true" class="w-3 h-3 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="1"/>
+                        <svg
+                                aria-hidden="true"
+                                class="w-3 h-3 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                            />
                         </svg>
                     </button>
                 </div>
             </div>
 
             <div class="input-container">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black" for="email">Correo
-                    electrónico</label>
+                <label
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                        for="email"
+                >Correo electrónico</label
+                >
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 27 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                    <div
+                            class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none"
+                    >
+                        <svg
+                                aria-hidden="true"
+                                class="w-5 h-5 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 27 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"
+                            />
+                            <path
+                                    d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"
+                            />
                         </svg>
                     </div>
                     <input
                             id="email"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5  dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                             name="email"
                             placeholder="Correo electrónico"
                             type="text"
+                    />
+                    <button
+                            class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                            type="button"
                     >
-                    <button class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
-                            type="button">
-                        <svg aria-hidden="true" class="w-3 h-3 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="1"/>
+                        <svg
+                                aria-hidden="true"
+                                class="w-3 h-3 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                            />
                         </svg>
                     </button>
                 </div>
             </div>
 
             <div class="input-container">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-                       for="password">Contraseña</label>
+                <label
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                        for="password"
+                >Contraseña</label
+                >
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 27 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z"/>
+                    <div
+                            class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none"
+                    >
+                        <svg
+                                aria-hidden="true"
+                                class="w-5 h-5 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 27 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z"
+                            />
                         </svg>
                     </div>
                     <input
                             id="password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5  dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                             placeholder="Contraseña"
                             type="password"
+                    />
+                    <button
+                            class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                            type="button"
                     >
-                    <button class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
-                            type="button">
-                        <svg aria-hidden="true" class="w-3 h-3 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="1"/>
+                        <svg
+                                aria-hidden="true"
+                                class="w-3 h-3 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                            />
                         </svg>
                     </button>
                 </div>
             </div>
 
             <div class="input-container">
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-black" for="confirm-password">Confirma
-                    tu contraseña</label>
+                <label
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                        for="confirm-password"
+                >Confirma tu contraseña</label
+                >
                 <div class="relative">
-                    <div class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-800 dark:text-gray-500"
-                             fill="currentColor" viewBox="0 0 27 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z"/>
+                    <div
+                            class="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none"
+                    >
+                        <svg
+                                aria-hidden="true"
+                                class="w-5 h-5 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 27 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z"
+                            />
                         </svg>
                     </div>
                     <input
                             id="confirm-password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5  dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                             placeholder="Confirmar contraseña"
                             type="password"
+                    />
+                    <button
+                            class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                            type="button"
                     >
-                    <button class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
-                            type="button">
-                        <svg aria-hidden="true" class="w-3 h-3 text-gray-800 dark:text-gray-500" fill="currentColor"
-                             viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="1"/>
+                        <svg
+                                aria-hidden="true"
+                                class="w-3 h-3 text-gray-800 dark:text-gray-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 16"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                            />
                         </svg>
                     </button>
                 </div>
             </div>
 
             <div class="flex justify-center">
-                <button class="mt-2 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 text-center dark:bg-purple-700 dark:hover-bg-purple-800 dark:focus:ring-purple-800 w-full sm:w-auto"
-                        type="submit">
+                <button
+                        class="mt-2 text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-6 py-2.5 text-center dark:bg-purple-700 dark:hover-bg-purple-800 dark:focus:ring-purple-800 w-full sm:w-auto"
+                        type="submit"
+                >
                     Registrar
                 </button>
             </div>
 
-            <div class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center">
-                Ya tienes una cuenta? <a class="text-blue-700 hover:underline dark:text-blue-500" href="/auth/login">Inicia
-                sesión</a>
+            <div
+                    class="text-sm font-medium text-gray-500 dark:text-gray-400 text-center"
+            >
+                Ya tienes una cuenta?
+                <a
+                        class="text-blue-700 hover:underline dark:text-blue-500"
+                        href="/auth/login"
+                >Inicia sesión</a
+                >
             </div>
 
             <button type="button" th:onclick="show()">Click</button>
@@ -147,5 +262,4 @@
 <script th:src="@{/signup.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 </body>
-
 </html>
