@@ -15,7 +15,7 @@
   <body class="bg-stone-100">
     <div class="flex items-center justify-center h-screen">
       <div
-       class="w-11/12 sm:w-9/12 md:w-7/12 lg:w-6/12 xl:w-5/12 2xl:w-4/12 bg-white rounded-lg shadow-2xl p-5 m-3 sm:px-12 md:px-14 md:py-10 lg:p-16 xl:p-19 2xl:px-30 2xl:py-34 space-y-4 2xl:space-y-10"
+        class="w-11/12 sm:w-9/12 md:w-7/12 lg:w-6/12 xl:w-5/12 2xl:w-4/12 bg-white rounded-lg shadow-2xl p-5 m-3 sm:px-12 md:px-14 md:py-10 lg:p-16 xl:p-19 2xl:px-30 2xl:py-34 space-y-4 2xl:space-y-10"
       >
         <form class="space-y-5" method="POST" th:action="@{/auth/signup}">
           <h5
@@ -52,6 +52,7 @@
                 name="fullName"
                 placeholder="Nombre"
                 type="text"
+                th:value="${fullName != null ? fullName : ''}"
               />
               <button
                 class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
@@ -73,6 +74,13 @@
                   />
                 </svg>
               </button>
+            </div>
+            <div
+              th:if="${fullNameError}"
+              class="mt-2 text-sm text-red-800 dark:text-red-400"
+              role="alert"
+            >
+              <p th:text="${fullNameError}"></p>
             </div>
           </div>
 
@@ -107,6 +115,7 @@
                 name="email"
                 placeholder="Correo electrónico"
                 type="text"
+                th:value="${email != null ? email : ''}"
               />
               <button
                 class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
@@ -128,6 +137,13 @@
                   />
                 </svg>
               </button>
+            </div>
+            <div
+              th:if="${emailError}"
+              class="mt-2 text-sm text-red-800 dark:text-red-400"
+              role="alert"
+            >
+              <p th:text="${emailError}"></p>
             </div>
           </div>
 
@@ -163,7 +179,6 @@
               <button
                 class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
                 type="button"
-                
               >
                 <svg
                   aria-hidden="true"
@@ -234,6 +249,13 @@
                 </svg>
               </button>
             </div>
+            <div
+              th:if="${emptyFieldError}"
+              class="mt-2 text-sm text-red-800 dark:text-red-400"
+              role="alert"
+            >
+              <p th:text="${emptyFieldError}"></p>
+            </div>
           </div>
 
           <div class="flex justify-center">
@@ -259,8 +281,69 @@
       </div>
     </div>
 
-    
+    <div
+      th:if="${successful}"
+      class="w-full h-screen opacity-0 transition-opacity bg-black/10 fixed z-10 top-0 right-0 flex justify-center items-center"
+      id="modal"
+    >
+      <div
+        class="w-11/12 max-w-2xl min-h-96 bg-white flex justify-center items-center gap-10 flex-col py-10 px-4 relative"
+      >
+        <button type="button" class="absolute top-4 right-4 close-btn">
+          <svg
+            class="w-4 text-gray-400 hover:text-gray-500"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+        </button>
+        <svg
+          class="w-14 text-purple-700"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 16 12"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M1 5.917 5.724 10.5 15 1.5"
+          />
+        </svg>
+
+        <div class="text-center">
+          <p class="font-bold text-2xl">Registro Exitoso</p>
+          <p class="text-lg mt-2 w-5/6 mx-auto">
+            <span class="text-purple-700"
+              >¡Gracias por registrarte con nosotros!</span
+            >
+            Por favor, verifica tu cuenta a través del correo proporcionado para
+            poder utilizar la app
+          </p>
+        </div>
+        <button
+          type="button"
+          href="/auth/login"
+          class="close-btn w-6/12 text-center sm:w-auto focus:outline-none cursor-pointer text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-10 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <script th:src="@{/signup.js}"></script>
+    <script th:src="@{/modal.js}"></script>
   </body>
 </html>
