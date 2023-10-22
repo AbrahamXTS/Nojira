@@ -7,7 +7,7 @@ import com.dinamitaexplosivainsana.nojira.exceptions.IncorrectFullNameFormatExce
 
 public class UserSchemaValidator{
 
-    public static void validationsToSignUp(final String fullName, final String email, final String password)
+    public static void validate(final String fullName, final String email, final String password)
             throws EmptyDataException, IncorrectEmailFormatException, IncorrectFullNameFormatException {
 
         if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.dinamitaexplosivainsana.nojira.services;
 
-import com.dinamitaexplosivainsana.nojira.exceptions.EmailAlreadyExistsException;
+import com.dinamitaexplosivainsana.nojira.exceptions.UserAlreadyExistsException;
 import com.dinamitaexplosivainsana.nojira.exceptions.EmptyDataException;
 import com.dinamitaexplosivainsana.nojira.exceptions.IncorrectEmailFormatException;
 import com.dinamitaexplosivainsana.nojira.exceptions.IncorrectFullNameFormatException;
@@ -26,13 +26,13 @@ public class AuthService {
     }
 
     public void signup(final String fullName, final String email, final String password)
-            throws EmailAlreadyExistsException, EmptyDataException, IncorrectEmailFormatException, IncorrectFullNameFormatException {
+            throws UserAlreadyExistsException, EmptyDataException, IncorrectEmailFormatException, IncorrectFullNameFormatException {
             
-            UserSchemaValidator.validationsToSignUp(fullName, email, password);
+            UserSchemaValidator.validate(fullName, email, password);
             
             UserSchema user = userRepository.findByEmail(email);
             if (Objects.nonNull(user)) {
-                throw new EmailAlreadyExistsException("El correo electrónico ya está registrado");
+                throw new UserAlreadyExistsException("Ya existe una cuenta asociada a este correo electrónico");
             }
 
             UserSchema newUser = UserSchema.builder()
