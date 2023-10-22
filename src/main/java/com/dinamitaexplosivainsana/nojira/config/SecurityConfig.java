@@ -48,7 +48,7 @@ public class SecurityConfig {
         httpSecurity
                 .authenticationProvider(configureDaoAuthenticationProvider())
                 .authorizeHttpRequests(requests -> {
-                    requests.requestMatchers("/auth/**", "/actuator/**", "/docs", "swagger-ui/**", "/v3/api-docs/**").permitAll();
+                    requests.requestMatchers("/auth/**", "/actuator/**", "/docs", "swagger-ui/**", "/v3/api-docs/**", "**.js").permitAll();
                     requests.anyRequest().authenticated();
                 })
                 .formLogin(login -> {
