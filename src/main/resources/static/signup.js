@@ -6,16 +6,16 @@ inputContainers.forEach(function (container) {
   // Agregar un controlador de eventos al campo de entrada
   input.addEventListener("input", function () {
     if (input.value) {
-      closeButton.style.display = "block";
+      closeButton.classList.remove("hidden");
     } else {
-      closeButton.style.display = "none";
+      closeButton.classList.add("hidden");
     }
   });
 
   // Agregar un controlador de eventos para el botón cerrar
   closeButton.addEventListener("click", function () {
     input.value = "";
-    closeButton.style.display = "none";
+    closeButton.classList.add("hidden");
   });
 });
 

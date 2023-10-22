@@ -12,10 +12,10 @@
     />
   </head>
 
-  <body>
+  <body class="bg-stone-100">
     <div class="flex items-center justify-center h-screen">
       <div
-        class="w-11/12 max-w-lg p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-16 dark:bg-white-800"
+       class="w-11/12 sm:w-9/12 md:w-7/12 lg:w-6/12 xl:w-5/12 2xl:w-4/12 bg-white rounded-lg shadow-2xl p-5 m-3 sm:px-12 md:px-14 md:py-10 lg:p-16 xl:p-19 2xl:px-30 2xl:py-34 space-y-4 2xl:space-y-10"
       >
         <form class="space-y-5" method="POST" th:action="@{/auth/signup}">
           <h5
@@ -48,15 +48,14 @@
               </div>
               <input
                 id="fullName"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                 name="fullName"
                 placeholder="Nombre"
                 type="text"
               />
               <button
-                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
                 type="button"
-                style="display: none;"
               >
                 <svg
                   aria-hidden="true"
@@ -110,9 +109,8 @@
                 type="text"
               />
               <button
-                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
                 type="button"
-                style="display: none;"
               >
                 <svg
                   aria-hidden="true"
@@ -157,14 +155,15 @@
               </div>
               <input
                 id="password"
+                name="password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                 placeholder="Contraseña"
                 type="password"
               />
               <button
-                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
                 type="button"
-                style="display: none;"
+                
               >
                 <svg
                   aria-hidden="true"
@@ -209,14 +208,14 @@
               </div>
               <input
                 id="confirm-password"
+                name="confirm-password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1.5 dark:bg-purple-5 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-purple-400 dark:focus:border-purple-400"
                 placeholder="Confirmar contraseña"
                 type="password"
               />
               <button
-                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent"
+                class="close-btn absolute inset-y-0 right-3 flex items-center pr-0 bg-transparent hidden"
                 type="button"
-                style="display: none;"
               >
                 <svg
                   aria-hidden="true"
