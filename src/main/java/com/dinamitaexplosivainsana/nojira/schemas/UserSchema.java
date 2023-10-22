@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
+@Entity(name = "user")
 public class UserSchema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
