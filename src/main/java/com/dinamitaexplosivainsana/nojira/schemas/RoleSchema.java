@@ -24,5 +24,5 @@ public class RoleSchema {
     @Id
     @ManyToOne
     @JoinColumn(nullable = false)
-    private RoleCatalogSchema role;
+    private RoleCatalogSchema roleCatalog;
 }

@@ -13,8 +13,8 @@ import java.sql.Time;
 @Entity(name = "task")
 public class TaskSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "description", nullable = false)
     private String description;

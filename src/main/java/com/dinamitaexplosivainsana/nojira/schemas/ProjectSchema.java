@@ -12,8 +12,8 @@ import lombok.*;
 public class ProjectSchema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;

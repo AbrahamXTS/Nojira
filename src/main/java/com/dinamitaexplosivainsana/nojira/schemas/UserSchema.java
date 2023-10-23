@@ -12,8 +12,8 @@ import lombok.*;
 @Entity(name = "user")
 public class UserSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
