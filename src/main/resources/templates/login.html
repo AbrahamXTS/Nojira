@@ -83,6 +83,9 @@
                             </svg>
                         </button>
                     </div>
+                    <div  th:if="${param.error}" class="mt-4 text-sm text-red-800 dark:text-red-400 text-right" role="alert">
+                      <p>Usuario o contraseña incorrectos</p>
+                  </div>
                 </div>
                 <div class="m-4 text-gray-400 dark:text-gray-400 text-xs font-normal space-y-4">
                     <a href="#" class="hover:underline dark:text-primary-500">¿Olvidaste tu contraseña?</a>
