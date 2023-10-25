@@ -4,5 +4,4 @@ public class IncorrectFullNameFormatException extends Exception {
     public IncorrectFullNameFormatException(String message) {
         super(message);
     }
-    
 }

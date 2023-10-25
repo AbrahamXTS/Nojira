@@ -25,24 +25,22 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public void signup(final String fullName, final String email, final String password)
-            throws UserAlreadyExistsException, EmptyDataException, IncorrectEmailFormatException, IncorrectFullNameFormatException {
-            
-            UserSchemaValidator.validate(fullName, email, password);
-            
-            UserSchema user = userRepository.findByEmail(email);
-            if (Objects.nonNull(user)) {
-                throw new UserAlreadyExistsException("Ya existe una cuenta asociada a este correo electrónico");
-            }
+    public void signup(final String fullName, final String email, final String password) throws UserAlreadyExistsException, EmptyDataException, IncorrectEmailFormatException, IncorrectFullNameFormatException {
 
-            UserSchema newUser = UserSchema.builder()
-                    .fullName(fullName)
-                    .email(email)
-                    .password(passwordEncoder.encode(password))
-                    .build();
+        UserSchemaValidator.validate(fullName, email, password);
 
-            this.userRepository.save(newUser);
+        UserSchema user = userRepository.findByEmail(email);
 
+        if (Objects.nonNull(user)) {
+            throw new UserAlreadyExistsException("Ya existe una cuenta asociada a este correo electrónico");
+        }
+
+        UserSchema newUser = UserSchema.builder()
+                .fullName(fullName)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .build();
+
+        this.userRepository.save(newUser);
     }
-
 }
