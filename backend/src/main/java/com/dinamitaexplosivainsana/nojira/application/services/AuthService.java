@@ -5,9 +5,10 @@ import com.dinamitaexplosivainsana.nojira.application.utils.JWTUtils;
 import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulAuthenticationDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserLoginDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserSignupDTO;
-import com.dinamitaexplosivainsana.nojira.domain.exceptions.*;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.AuthenticationFailedException;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.UserAlreadyExistsException;
+import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.domain.validators.UserSignupValidator;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
@@ -27,16 +28,15 @@ public class AuthService {
     }
 
     public SuccessfulAuthenticationDTO login(UserLoginDTO user) {
-        UserSchema userSchema = userRepository.findByEmail(user.email())
-                .orElseGet(() -> null);
+        User findedUser = userRepository.getUserByEmail(user.email());
 
-        if (Objects.isNull(userSchema) || !(passwordEncoder.matches(user.password(), userSchema.getPassword()))) {
+        if (Objects.isNull(findedUser) || !(passwordEncoder.matches(user.password(), findedUser.password()))) {
             throw new AuthenticationFailedException(AUTHENTICATION_FAILED_EXCEPTION_MESSAGE);
         }
 
         return new SuccessfulAuthenticationDTO(
-                userSchema.getFullName(),
-                userSchema.getEmail(),
+                findedUser.fullName(),
+                findedUser.email(),
                 jwtUtils.generateAccessToken(user.email())
         );
     }
@@ -44,21 +44,22 @@ public class AuthService {
     public SuccessfulAuthenticationDTO signup(UserSignupDTO user) {
         UserSignupValidator.validate(user);
 
-        if (userRepository.findByEmail(user.email()).isPresent()) {
+        if (Objects.nonNull(userRepository.getUserByEmail(user.email()))) {
             throw new UserAlreadyExistsException(USER_ALREADY_EXIST_EXCEPTION_MESSAGE);
         }
 
-        UserSchema savedUser = this.userRepository.save(
-                UserSchema.builder()
-                        .fullName(user.fullName())
-                        .email(user.email())
-                        .password(passwordEncoder.encode(user.password()))
-                        .build()
+        User savedUser = this.userRepository.saveUser(
+                new User(
+                        null,
+                        user.fullName(),
+                        user.email(),
+                        passwordEncoder.encode(user.password())
+                )
         );
 
         return new SuccessfulAuthenticationDTO(
-                savedUser.getFullName(),
-                savedUser.getEmail(),
+                savedUser.fullName(),
+                savedUser.email(),
                 jwtUtils.generateAccessToken(user.email())
         );
     }

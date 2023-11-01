@@ -11,18 +11,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ErrorHandlerController extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(AuthenticationFailedException.class)
-	public ResponseEntity<WrapperResponse<Void>> authenticationFailedExceptionHandler(Exception e) {
-		return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
-	}
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<WrapperResponse<Void>> authenticationFailedExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
+    }
 
-	@ExceptionHandler(UserAlreadyExistsException.class)
-	public ResponseEntity<WrapperResponse<Void>> userAlreadyExistsExceptionHandler(Exception e) {
-		return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.CONFLICT);
-	}
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<WrapperResponse<Void>> userAlreadyExistsExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.CONFLICT);
+    }
 
-	@ExceptionHandler(value = {RequiredArgumentException.class, InvalidEmailFormatException.class, InvalidFullNameFormatException.class})
-	public ResponseEntity<WrapperResponse<Void>> invalidArgumentExceptionHandler(Exception e) {
-		return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
-	}
+    @ExceptionHandler(value = {RequiredArgumentException.class, InvalidEmailFormatException.class, InvalidFullNameFormatException.class})
+    public ResponseEntity<WrapperResponse<Void>> invalidArgumentExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
 }

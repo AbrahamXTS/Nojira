@@ -1,16 +1,42 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import com.dinamitaexplosivainsana.nojira.domain.models.Project;
+import java.util.Collections;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Repository
-public interface ProjectRepositoryImpl extends ProjectRepository, JpaRepository<ProjectSchema, String> {
-	@Query("SELECT p FROM project p WHERE p.id IN (SELECT r.project.id FROM role r WHERE r.user.id = :userId)")
-	List<ProjectSchema> findProjectSchemaByUserId(@Param("userId") String userId);
+@Component
+public class ProjectRepositoryImpl implements ProjectRepository {
+    private final JPAProjectRepository projectRepository;
+
+    public ProjectRepositoryImpl(JPAProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
+    @Override
+    public Project getProjectByProjectId(String projectId) {
+        return null;
+    }
+
+    @Override
+    public List<Project> getAllProjectsByUserId(String userId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Project saveProject(Project project) {
+        return null;
+    }
+
+    @Override
+    public Project deleteProjectByProjectId(String projectId) {
+        return null;
+    }
+
+    @Override
+    public Project updateProjectByProjectId(String projectId, Project project) {
+        return null;
+    }
 }

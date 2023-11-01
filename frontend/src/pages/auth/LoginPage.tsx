@@ -13,11 +13,34 @@ import {
 	VStack,
 	Text,
 	Button,
+	useColorMode,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IconBrandBunpo, IconLock, IconMail } from "@tabler/icons-react";
 
+import { setAuthUser } from "@/utils";
+import { useLoginService } from "@/services";
+
 export const LoginPage = () => {
+	const [loginInfo, setLoginInfo] = useState({
+		email: "",
+		password: "",
+	});
+
+	const navigate = useNavigate();
+	const loginService = useLoginService();
+	const { colorMode } = useColorMode();
+
+	const onLogin = () => {
+		loginService.mutate(loginInfo, {
+			onSuccess: ({ data }) => {
+				setAuthUser(data.body);
+				navigate("/projects");
+			},
+		});
+	};
+	
 	return (
 		<Center h="100vh">
 			<Card w="lg">
@@ -25,7 +48,7 @@ export const LoginPage = () => {
 					<VStack>
 						<HStack>
 							<IconBrandBunpo color="#7e22ce" size={100} />
-							<Heading as="h1" color="#7e22ce" size="3xl">
+							<Heading as="h1" color={colorMode === "light" ? "#7e22ce" : "white"} size="3xl">
 								Nojira
 							</Heading>
 						</HStack>
@@ -42,8 +65,15 @@ export const LoginPage = () => {
 									<IconMail color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setLoginInfo((prev) => ({
+											...prev,
+											email: e.target.value,
+										}))
+									}
 									placeholder="hello@example.com"
 									type="email"
+									value={loginInfo.email}
 									variant="filled"
 								/>
 							</InputGroup>
@@ -56,8 +86,15 @@ export const LoginPage = () => {
 									<IconLock color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setLoginInfo((prev) => ({
+											...prev,
+											password: e.target.value,
+										}))
+									}
 									placeholder="**********"
 									type="password"
+									value={loginInfo.password}
 									variant="filled"
 								/>
 							</InputGroup>
@@ -82,8 +119,9 @@ export const LoginPage = () => {
 							_hover={{
 								bgColor: "#661CA6",
 							}}
-							color="#ffffff"
 							bgColor="#7e22ce"
+							color="#ffffff"
+							onClick={onLogin}
 						>
 							Iniciar sesión
 						</Button>
