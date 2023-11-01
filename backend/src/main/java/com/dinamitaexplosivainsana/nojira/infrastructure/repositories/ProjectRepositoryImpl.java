@@ -2,6 +2,7 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
+import java.util.Collections;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public List<Project> getAllProjectsByUserId(String userId) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
+import java.util.Collections;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,16 +22,16 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> getAllTasksByUserId(String userId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Task saveTask(Task task) {
         return null;
     }
 
     @Override
-    public Task saveTask(Task project) {
-        return null;
-    }
-
-    @Override
-    public Task deleteTaskByTaskId(String projectId) {
+    public Task deleteTaskByTaskId(String taskId) {
         return null;
     }
 
