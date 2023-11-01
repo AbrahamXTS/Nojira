@@ -1,11 +1,15 @@
 package com.dinamitaexplosivainsana.nojira.application.repositories;
 
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
-
-import java.util.Optional;
+import com.dinamitaexplosivainsana.nojira.domain.models.User;
 
 public interface UserRepository {
-	Optional<UserSchema> findByEmail(String email);
+    User getUserByUserId(String userId);
 
-	UserSchema save(UserSchema user);
+    User getUserByEmail(String email);
+
+    User saveUser(User user);
+
+    User deleteUserByUserId(String userId);
+
+    User updateUserByUserId(String userId, User user);
 }
