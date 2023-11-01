@@ -13,11 +13,47 @@ import {
 	VStack,
 	Text,
 	Button,
+	useToast,
+	useColorMode,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IconBrandBunpo, IconLock, IconMail, IconUser } from "@tabler/icons-react";
 
+import { setAuthUser } from "@/utils";
+import { useSignupService } from "@/services";
+
 export const SignupPage = () => {
+	const [signupInfo, setSignupInfo] = useState({
+		fullName: "",
+		email: "",
+		password: "",
+		passwordConfirm: "",
+	});
+
+	const toast = useToast();
+	const navigate = useNavigate();
+	const { colorMode } = useColorMode();
+	const signupService = useSignupService();
+
+	const onSignup = () => {
+		if (signupInfo.password !== signupInfo.passwordConfirm) {
+			return toast({
+				status: "warning",
+				title: "Hey!",
+				description:
+					"Verifica que tu contraseña coincida con el campo de confirmación de la misma.",
+			});
+		}
+
+		signupService.mutate(signupInfo, {
+			onSuccess: ({ data }) => {
+				setAuthUser(data.body);
+				navigate("/projects");
+			},
+		});
+	};
+
 	return (
 		<Center h="100vh">
 			<Card w="lg">
@@ -25,7 +61,11 @@ export const SignupPage = () => {
 					<VStack>
 						<HStack>
 							<IconBrandBunpo color="#7e22ce" size={100} />
-							<Heading as="h1" color="#7e22ce" size="3xl">
+							<Heading
+								as="h1"
+								color={colorMode === "light" ? "#7e22ce" : "white"}
+								size="3xl"
+							>
 								Nojira
 							</Heading>
 						</HStack>
@@ -42,6 +82,12 @@ export const SignupPage = () => {
 									<IconUser color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setSignupInfo((prev) => ({
+											...prev,
+											fullName: e.target.value,
+										}))
+									}
 									placeholder="John Doe"
 									type="email"
 									variant="filled"
@@ -56,6 +102,12 @@ export const SignupPage = () => {
 									<IconMail color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setSignupInfo((prev) => ({
+											...prev,
+											email: e.target.value,
+										}))
+									}
 									placeholder="hello@example.com"
 									type="email"
 									variant="filled"
@@ -70,6 +122,12 @@ export const SignupPage = () => {
 									<IconLock color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setSignupInfo((prev) => ({
+											...prev,
+											password: e.target.value,
+										}))
+									}
 									placeholder="**********"
 									type="password"
 									variant="filled"
@@ -84,6 +142,12 @@ export const SignupPage = () => {
 									<IconLock color="#6B7280" size={20} />
 								</InputLeftElement>
 								<Input
+									onChange={(e) =>
+										setSignupInfo((prev) => ({
+											...prev,
+											passwordConfirm: e.target.value,
+										}))
+									}
 									placeholder="**********"
 									type="password"
 									variant="filled"
@@ -99,6 +163,7 @@ export const SignupPage = () => {
 							}}
 							color="#ffffff"
 							bgColor="#7e22ce"
+							onClick={onSignup}
 						>
 							Registrate
 						</Button>

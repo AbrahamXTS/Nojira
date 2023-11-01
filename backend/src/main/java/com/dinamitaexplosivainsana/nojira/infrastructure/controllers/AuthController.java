@@ -16,38 +16,39 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@CrossOrigin(maxAge = 3600, methods = {RequestMethod.OPTIONS, RequestMethod.POST}, origins = {"*"})
 @Tag(name = "Authentication", description = "The authentication handler contains the login and registration of new users to generate a valid JWT token that allows signing the rest of the requests.")
 public class AuthController {
-	private final AuthService authService;
+    private final AuthService authService;
 
-	@Autowired
-	public AuthController(
-			JWTUtils jwtUtils,
-			PasswordEncoder passwordEncoder,
-			UserRepository userRepository
-	) {
-		this.authService = new AuthService(jwtUtils, passwordEncoder, userRepository);
-	}
+    @Autowired
+    public AuthController(
+            JWTUtils jwtUtils,
+            PasswordEncoder passwordEncoder,
+            UserRepository userRepository
+    ) {
+        this.authService = new AuthService(jwtUtils, passwordEncoder, userRepository);
+    }
 
-	@PostMapping("login")
-	public ResponseEntity<WrapperResponse<SuccessfulAuthenticationDTO>> login(@RequestBody UserLoginDTO user) {
-		return new ResponseEntity<>(new WrapperResponse<>(
-				true,
-				"Bienvenido de vuelta " + user.email(),
-				authService.login(user)
-		),
-				HttpStatus.OK
-		);
-	}
+    @PostMapping("login")
+    public ResponseEntity<WrapperResponse<SuccessfulAuthenticationDTO>> login(@RequestBody UserLoginDTO user) {
+        return new ResponseEntity<>(new WrapperResponse<>(
+                true,
+                "Bienvenido de vuelta " + user.email(),
+                authService.login(user)
+        ),
+                HttpStatus.OK
+        );
+    }
 
-	@PostMapping("signup")
-	public ResponseEntity<WrapperResponse<SuccessfulAuthenticationDTO>> signup(@RequestBody UserSignupDTO user) {
-		return new ResponseEntity<>(new WrapperResponse<>(
-				true,
-				"Usuario " + user.email() + " registrado correctamente",
-				authService.signup(user)
-		),
-				HttpStatus.OK
-		);
-	}
+    @PostMapping("signup")
+    public ResponseEntity<WrapperResponse<SuccessfulAuthenticationDTO>> signup(@RequestBody UserSignupDTO user) {
+        return new ResponseEntity<>(new WrapperResponse<>(
+                true,
+                "Usuario " + user.email() + " registrado correctamente",
+                authService.signup(user)
+        ),
+                HttpStatus.CREATED
+        );
+    }
 }
