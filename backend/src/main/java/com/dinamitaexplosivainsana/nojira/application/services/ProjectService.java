@@ -38,10 +38,10 @@ public class ProjectService {
                 )
         );
 
-        // 0, role, is defined for project owners
-        this.roleRepository.relateProjectToUser(userId, savedProject.id(), 0);
-
         User userOwner = this.userRepository.getUserByUserId(userId);
+
+        // 0, role, is defined for project owners
+        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), 0);
 
         return new CreatedProjectManagementDTO(
                 savedProject.id(),
