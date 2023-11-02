@@ -2,18 +2,23 @@ package com.dinamitaexplosivainsana.nojira.application.services;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.RoleRepository;
+import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
 import com.dinamitaexplosivainsana.nojira.domain.dto.CreateProjectDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.CreatedProjectManagementDTO;
+import com.dinamitaexplosivainsana.nojira.domain.dto.OwnerDTO;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
+import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.domain.validators.CreateProjectValidator;
 
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
-    public ProjectService(ProjectRepository projectRepository, RoleRepository roleRepository) {
+    public ProjectService(ProjectRepository projectRepository, RoleRepository roleRepository, UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -33,12 +38,19 @@ public class ProjectService {
                 )
         );
 
-        this.roleRepository.relateProjectToUser(userId, savedProject.id());
+        // 0, role, is defined for project owners
+        this.roleRepository.relateProjectToUser(userId, savedProject.id(), 0);
+
+        User userOwner = this.userRepository.getUserByUserId(userId);
 
         return new CreatedProjectManagementDTO(
                 savedProject.id(),
                 savedProject.name(),
-                savedProject.description()
+                savedProject.description(),
+                new OwnerDTO(
+                        userOwner.id(),
+                        userOwner.fullName()
+                )
         );
     }
 }
