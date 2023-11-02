@@ -35,6 +35,7 @@ public class AuthService {
         }
 
         return new SuccessfulAuthenticationDTO(
+                findedUser.id(),
                 findedUser.fullName(),
                 findedUser.email(),
                 jwtUtils.generateAccessToken(user.email())
@@ -58,6 +59,7 @@ public class AuthService {
         );
 
         return new SuccessfulAuthenticationDTO(
+                savedUser.id(),
                 savedUser.fullName(),
                 savedUser.email(),
                 jwtUtils.generateAccessToken(user.email())
