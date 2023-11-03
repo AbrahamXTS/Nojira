@@ -1,8 +1,6 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
-import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
 import com.dinamitaexplosivainsana.nojira.application.services.AuthService;
-import com.dinamitaexplosivainsana.nojira.application.utils.JWTUtils;
 import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulAuthenticationDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserLoginDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserSignupDTO;
@@ -11,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,12 +19,8 @@ public class AuthController {
     private final AuthService authService;
 
     @Autowired
-    public AuthController(
-            JWTUtils jwtUtils,
-            PasswordEncoder passwordEncoder,
-            UserRepository userRepository
-    ) {
-        this.authService = new AuthService(jwtUtils, passwordEncoder, userRepository);
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("login")

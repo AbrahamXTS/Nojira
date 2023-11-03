@@ -5,6 +5,7 @@ export interface SuccesfulAuthenticationResponse {
 }
 
 interface Body {
+	userId: string;
 	email: string;
 	fullName: string;
 	token: string;
