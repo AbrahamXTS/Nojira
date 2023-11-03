@@ -1,5 +1,6 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.security;
 
+import com.dinamitaexplosivainsana.nojira.application.utils.JWTUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,12 +19,12 @@ import java.util.Objects;
 
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
-	private final JWTUtilsImpl jwtUtils;
+	private final JWTUtils jwtUtils;
 	private final UserDetailsService userDetailsService;
 
 	@Autowired
 	public JWTAuthorizationFilter(
-			JWTUtilsImpl jwtUtils,
+			JWTUtils jwtUtils,
 			UserDetailsServiceImpl userDetailsService
 	) {
 		this.jwtUtils = jwtUtils;

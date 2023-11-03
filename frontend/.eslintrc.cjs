@@ -11,5 +11,6 @@ module.exports = {
 	plugins: ["react-refresh"],
 	rules: {
 		"react-refresh/only-export-components": ["off", { allowConstantExport: true }],
+		"react-hooks/exhaustive-deps": ["off"],
 	},
 };
