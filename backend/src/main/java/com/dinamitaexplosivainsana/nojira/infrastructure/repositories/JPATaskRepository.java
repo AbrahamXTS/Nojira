@@ -13,8 +13,8 @@ import java.util.List;
 public interface JPATaskRepository extends JpaRepository<TaskSchema, String> {
 
     @Query("SELECT t FROM task t WHERE  t.user.id = :userId")
-    List<TaskSchema> getAllTaskByUserId(@Param("userId") String userId);
+    List<TaskSchema> getAllTasksByUserId(@Param("userId") String userId);
 
     @Query("SELECT t FROM task t WHERE  t.project.id = :projectId ")
-    List<TaskSchema> getAllTaskByProjectId(@Param("projectId") String projectId);
+    List<TaskSchema> getAllTasksByProjectId(@Param("projectId") String projectId);
 }

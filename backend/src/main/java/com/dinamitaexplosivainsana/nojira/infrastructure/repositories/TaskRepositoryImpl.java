@@ -4,7 +4,10 @@ import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepositor
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 
+
 import java.util.*;
+
+import java.util.stream.*;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,23 +38,19 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> getAllTasksByUserId(String userId) {
-
-        List<TaskSchema> taskSchema = this.taskRepository.getAllTaskByUserId(userId);
-        if (Objects.isNull(taskSchema)){
+        List<TaskSchema> tasksByUserId = this.taskRepository.getAllTasksByUserId(userId);
+        if (Objects.isNull(tasksByUserId)){
             return null;
         }
-        List<Task> taskList = new ArrayList<>();
-
-        for (TaskSchema taskChange : taskSchema) {
-            Task task = new Task(
-                    taskChange.getId(),
-                    taskChange.getDescription(),
-                    taskChange.getTimeEstimatedInMinutes(),
-                    taskChange.getTitle(),
-                    taskChange.getTimeUsedInMinutes()
-            );
-            taskList.add(task);
-        }
+        List<Task> taskList = tasksByUserId.stream()
+                .map(taskItem -> new Task(
+                        taskItem.getId(),
+                        taskItem.getDescription(),
+                        taskItem.getTimeEstimatedInMinutes(),
+                        taskItem.getTitle(),
+                        taskItem.getTimeUsedInMinutes()
+                ))
+                .collect(Collectors.toList());
         return taskList;
     }
 
@@ -83,22 +82,20 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> getAllTaskByProjectId(String projectId) {
-        List<TaskSchema> taskSchema = this.taskRepository.getAllTaskByProjectId(projectId);
-        if (Objects.isNull(taskSchema)) {
+        List<TaskSchema> tasksByProjectId = this.taskRepository.getAllTasksByProjectId(projectId);
+
+        if (Objects.isNull(tasksByProjectId)) {
             return null;
         }
-        List<Task> taskList = new ArrayList<>();
-
-        for (TaskSchema taskChange : taskSchema) {
-            Task task = new Task(
-                    taskChange.getId(),
-                    taskChange.getDescription(),
-                    taskChange.getTimeEstimatedInMinutes(),
-                    taskChange.getTitle(),
-                    taskChange.getTimeUsedInMinutes()
-            );
-            taskList.add(task);
-        }
+        List<Task> taskList = tasksByProjectId.stream()
+                .map(taskItem -> new Task(
+                        taskItem.getId(),
+                        taskItem.getDescription(),
+                        taskItem.getTimeEstimatedInMinutes(),
+                        taskItem.getTitle(),
+                        taskItem.getTimeUsedInMinutes()
+                ))
+                .collect(Collectors.toList());
         return taskList;
     }
 }
