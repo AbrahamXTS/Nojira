@@ -1,2 +1,8 @@
-package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;public interface JPAStatusRepository {
+package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
+
+import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JPAStatusRepository extends JpaRepository<StatusCatalogSchema, Integer> {
+
 }
