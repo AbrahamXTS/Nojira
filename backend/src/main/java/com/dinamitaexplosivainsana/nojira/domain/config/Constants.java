@@ -7,7 +7,7 @@ public class Constants {
     public static final String INVALID_FULL_NAME_FORMAT_EXCEPTION_MESSAGE = "Nombre inválido. Verifique que el nombre no contenga números o carácteres especiales";
     public static final String REQUIRED_ARGUMENT_EXCEPTION_MESSAGE = "Hey! Todos los campos son obligatorios";
     public static final String USER_ALREADY_EXIST_EXCEPTION_MESSAGE = "Hey! Este correo electrónico ya ha sido usado. Por favor, intenta de nuevo.";
-
+    public static final String TASK_NOT_FOUND_EXCEPTION_MESSAGE = "La tarea que se desea eliminar no existe";
     private Constants() {
     }
 }

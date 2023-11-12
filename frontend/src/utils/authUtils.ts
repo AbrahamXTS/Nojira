@@ -1,11 +1,11 @@
-import { User } from "@/interfaces";
+import { SuccesfulAuthenticationResponse } from "@/interfaces";
 
-export const setAuthUser = (user: User) => {
+export const setAuthUser = (user: SuccesfulAuthenticationResponse["body"]) => {
 	window.localStorage.setItem("authUser", JSON.stringify(user));
 };
 
-export const getAuthUser = (): User | null => {
-	const user = localStorage.getItem("authUser");
+export const getAuthUser = (): SuccesfulAuthenticationResponse["body"] | null => {
+	const user = window.localStorage.getItem("authUser");
 
 	if (user) {
 		return JSON.parse(user);

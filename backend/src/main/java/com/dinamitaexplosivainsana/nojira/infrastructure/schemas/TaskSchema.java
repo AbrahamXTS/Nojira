@@ -20,13 +20,13 @@ public class TaskSchema {
 	private String description;
 
 	@Column(name = "estimated", nullable = false)
-	private Time estimated;
+	private Integer timeEstimatedInMinutes;
 
 	@Column(name = "title", nullable = false)
 	private String title;
 
 	@Column(name = "total", nullable = false)
-	private Time total;
+	private Integer timeUsedInMinutes;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
