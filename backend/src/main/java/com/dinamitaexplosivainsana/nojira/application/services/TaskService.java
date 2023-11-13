@@ -1,48 +1,32 @@
 package com.dinamitaexplosivainsana.nojira.application.services;
 
-import com.dinamitaexplosivainsana.nojira.application.repositories.StatusRepository;
+import com.dinamitaexplosivainsana.nojira.application.repositories.RoleRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
-import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
 import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulCreatedTaskDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskAssignedToDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskCreateDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskTimesDTO;
-import com.dinamitaexplosivainsana.nojira.domain.exceptions.StatusNotFoundException;
-import com.dinamitaexplosivainsana.nojira.domain.models.Status;
-import com.dinamitaexplosivainsana.nojira.domain.models.Task;
-import com.dinamitaexplosivainsana.nojira.domain.models.User;
+import com.dinamitaexplosivainsana.nojira.domain.models.*;
 import com.dinamitaexplosivainsana.nojira.domain.validators.TaskCreateValidator;
-
-import java.util.Objects;
-
-import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.STATUS_OF_TASK_NOT_FOUND_EXCEPTION_MESSAGE;
 
 public class TaskService {
     private final TaskRepository taskRepository;
-    private final StatusRepository statusRepository;
-
-    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
 
     public TaskService(TaskRepository taskRepository,
-                       StatusRepository statusRepository,
-                       UserRepository userRepository) {
+                       RoleRepository roleRepository) {
         this.taskRepository = taskRepository;
-        this.statusRepository = statusRepository;
-        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public SuccessfulCreatedTaskDTO createTask(TaskCreateDTO task, String userId, String proyectId){
-        TaskCreateValidator.validate(task);
 
-        String taskStatusId = "1";
-        //Status taskStatus = this.statusRepository.getStatusByType(taskStatusType);
+        Role role = this.roleRepository.findRoleBetweenUserAndProject(userId, proyectId);
+        TaskCreateValidator.validate(task, role);
 
-        /*
-        if (Objects.isNull(taskStatus)){
-            throw new StatusNotFoundException(STATUS_OF_TASK_NOT_FOUND_EXCEPTION_MESSAGE);
-        }
-        */
+        User userAssigned = role.user();
+        Project projectBelonging = role.project();
 
         Task taskSaved = this.taskRepository.saveTask(
                 new Task(
@@ -51,27 +35,24 @@ public class TaskService {
                         0,
                         task.title(),
                         0,
-                        userId,
-                        proyectId,
-                        //taskStatus.type()
-                        taskStatusId
+                        userAssigned,
+                        projectBelonging,
+                        new Status()
                 )
         );
 
-        User taskUser = this.userRepository.getUserByUserId(userId);
         return new SuccessfulCreatedTaskDTO(
                 taskSaved.id(),
                 taskSaved.title(),
                 taskSaved.description(),
-                //taskStatus.type(),
-                "Por hacer",
+                taskSaved.status().type(),
                 new TaskTimesDTO(
                         taskSaved.timeEstimatedInMinutes(),
                         taskSaved.timeUsedInMinutes()
                 ),
                 new TaskAssignedToDTO(
-                        taskUser.id(),
-                        taskUser.fullName()
+                        taskSaved.userAsigned().id(),
+                        taskSaved.userAsigned().fullName()
                 )
         );
     }

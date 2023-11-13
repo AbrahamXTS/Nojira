@@ -17,4 +17,18 @@ public class StatusRepositoryImpl implements StatusRepository{
     }
 
 
+    @Override
+    public Status findStatusById(Integer statusId) {
+        StatusCatalogSchema taskStatus = this.statusRepository.findById(Integer.valueOf(statusId))
+                .orElse(null);
+
+        if(Objects.isNull(taskStatus)){
+            return null;
+        }
+
+        return new Status(
+                taskStatus.getId(),
+                taskStatus.getType()
+        );
+    }
 }

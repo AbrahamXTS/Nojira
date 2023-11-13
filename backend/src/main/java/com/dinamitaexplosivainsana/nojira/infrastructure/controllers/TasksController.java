@@ -1,5 +1,6 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
+import com.dinamitaexplosivainsana.nojira.application.repositories.RoleRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.StatusRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
@@ -26,10 +27,9 @@ public class TasksController {
 
     @Autowired
     public TasksController(TaskRepository taskRepository,
-                           StatusRepository statusRepository,
-                           UserRepository userRepository)
+                           RoleRepository roleRepository)
     {
-        this.taskService = new TaskService(taskRepository, statusRepository, userRepository);
+        this.taskService = new TaskService(taskRepository, roleRepository);
     }
 
     @ResponseBody

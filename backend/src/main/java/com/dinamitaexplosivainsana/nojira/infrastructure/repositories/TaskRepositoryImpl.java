@@ -1,7 +1,10 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
+import com.dinamitaexplosivainsana.nojira.domain.models.Project;
+import com.dinamitaexplosivainsana.nojira.domain.models.Status;
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
+import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
@@ -15,19 +18,9 @@ import java.util.stream.Collectors;
 @Component
 public class TaskRepositoryImpl implements TaskRepository {
     private final JPATaskRepository taskRepository;
-    private final JPAUserRepository userRepository;
-    private final JPAProjectRepository projectRepository;
-    private final JPAStatusRepository statusRepository;
 
-    public TaskRepositoryImpl(JPATaskRepository taskRepository,
-                              JPAUserRepository userRepository,
-                              JPAProjectRepository projectRepository,
-                              JPAStatusRepository statusRepository
-    ) {
+    public TaskRepositoryImpl(JPATaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
-        this.projectRepository = projectRepository;
-        this.statusRepository = statusRepository;
     }
 
     @Override
@@ -42,9 +35,20 @@ public class TaskRepositoryImpl implements TaskRepository {
                 taskSchema.getTimeEstimatedInMinutes(),
                 taskSchema.getTitle(),
                 taskSchema.getTimeUsedInMinutes(),
-                taskSchema.getUser().getId(),
-                taskSchema.getProject().getId(),
-                taskSchema.getStatus().getId().toString()
+                new User(taskSchema.getUser().getId(),
+                        taskSchema.getUser().getFullName(),
+                        taskSchema.getUser().getEmail(),
+                        taskSchema.getUser().getPassword()
+                ),
+                new Project(
+                        taskSchema.getProject().getId(),
+                        taskSchema.getProject().getName(),
+                        taskSchema.getProject().getDescription()
+                ),
+                new Status(
+                        taskSchema.getStatus().getId(),
+                        taskSchema.getStatus().getType()
+                )
         );
     }
 
@@ -61,9 +65,20 @@ public class TaskRepositoryImpl implements TaskRepository {
                         taskItem.getTimeEstimatedInMinutes(),
                         taskItem.getTitle(),
                         taskItem.getTimeUsedInMinutes(),
-                        taskItem.getUser().getId(),
-                        taskItem.getProject().getId(),
-                        taskItem.getStatus().getId().toString()
+                        new User(taskItem.getUser().getId(),
+                                taskItem.getUser().getFullName(),
+                                taskItem.getUser().getEmail(),
+                                taskItem.getUser().getPassword()
+                        ),
+                        new Project(
+                                taskItem.getProject().getId(),
+                                taskItem.getProject().getName(),
+                                taskItem.getProject().getDescription()
+                        ),
+                        new Status(
+                                taskItem.getStatus().getId(),
+                                taskItem.getStatus().getType()
+                        )
                 ))
                 .collect(Collectors.toList());
         return taskList;
@@ -71,12 +86,21 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task saveTask(Task task) {
-        UserSchema user = this.userRepository.findById(task.userId())
-                .orElse(null);
-        ProjectSchema project = this.projectRepository.findById(task.projectId())
-                .orElse(null);
-        StatusCatalogSchema status = this.statusRepository.findById(Integer.getInteger(task.statusId()))
-                .orElse(null);
+        UserSchema user = UserSchema.builder()
+                .id(task.userAsigned().id())
+                .fullName(task.userAsigned().fullName())
+                .email(task.userAsigned().email())
+                .password(task.userAsigned().password())
+                .build();
+        ProjectSchema project =  ProjectSchema.builder()
+                .id(task.projectBelonging().id())
+                .name(task.projectBelonging().name())
+                .description(task.projectBelonging().description())
+                .build();
+        StatusCatalogSchema status = StatusCatalogSchema.builder()
+                .id(task.status().id())
+                .type(task.status().type())
+                .build();
 
         TaskSchema taskSchema = this.taskRepository.save(
                 TaskSchema.builder()
@@ -96,9 +120,20 @@ public class TaskRepositoryImpl implements TaskRepository {
                 taskSchema.getTimeUsedInMinutes(),
                 taskSchema.getTitle(),
                 taskSchema.getTimeUsedInMinutes(),
-                taskSchema.getUser().getId(),
-                taskSchema.getProject().getId(),
-                taskSchema.getStatus().getId().toString()
+                new User(taskSchema.getUser().getId(),
+                        taskSchema.getUser().getFullName(),
+                        taskSchema.getUser().getEmail(),
+                        taskSchema.getUser().getPassword()
+                ),
+                new Project(
+                        taskSchema.getProject().getId(),
+                        taskSchema.getProject().getName(),
+                        taskSchema.getProject().getDescription()
+                ),
+                new Status(
+                        taskSchema.getStatus().getId(),
+                        taskSchema.getStatus().getType()
+                )
         );
     }
 
@@ -115,9 +150,20 @@ public class TaskRepositoryImpl implements TaskRepository {
                 taskSchema.getTimeUsedInMinutes(),
                 taskSchema.getTitle(),
                 taskSchema.getTimeUsedInMinutes(),
-                taskSchema.getUser().getId(),
-                taskSchema.getProject().getId(),
-                taskSchema.getStatus().getType()
+                new User(taskSchema.getUser().getId(),
+                        taskSchema.getUser().getFullName(),
+                        taskSchema.getUser().getEmail(),
+                        taskSchema.getUser().getPassword()
+                ),
+                new Project(
+                        taskSchema.getProject().getId(),
+                        taskSchema.getProject().getName(),
+                        taskSchema.getProject().getDescription()
+                ),
+                new Status(
+                        taskSchema.getStatus().getId(),
+                        taskSchema.getStatus().getType()
+                )
         );
     }
 
@@ -140,9 +186,20 @@ public class TaskRepositoryImpl implements TaskRepository {
                         taskItem.getTimeEstimatedInMinutes(),
                         taskItem.getTitle(),
                         taskItem.getTimeUsedInMinutes(),
-                        taskItem.getUser().getId(),
-                        taskItem.getProject().getId(),
-                        taskItem.getStatus().getId().toString()
+                        new User(taskItem.getUser().getId(),
+                                taskItem.getUser().getFullName(),
+                                taskItem.getUser().getEmail(),
+                                taskItem.getUser().getPassword()
+                        ),
+                        new Project(
+                                taskItem.getProject().getId(),
+                                taskItem.getProject().getName(),
+                                taskItem.getProject().getDescription()
+                        ),
+                        new Status(
+                                taskItem.getStatus().getId(),
+                                taskItem.getStatus().getType()
+                        )
                 ))
                 .collect(Collectors.toList());
         return taskList;
