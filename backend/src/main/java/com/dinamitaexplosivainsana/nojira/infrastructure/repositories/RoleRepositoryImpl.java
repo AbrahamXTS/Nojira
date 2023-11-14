@@ -28,13 +28,13 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public void relateProjectToUser(String userId, String projectId, int role) {
+    public void relateProjectToUser(String userId, String projectId, int roleId) {
 
         this.roleRepository.save(
                 RoleSchema.builder()
                         .user(this.getUserSchema(userId))
                         .project(this.getProjectSchema(projectId))
-                        .roleCatalog(this.getRoleCatalogSchema(role))
+                        .roleCatalog(this.getRoleCatalogSchema(roleId))
                         .build()
         );
     }
@@ -42,30 +42,18 @@ public class RoleRepositoryImpl implements RoleRepository {
     private UserSchema getUserSchema(String userId) {
         UserSchema userSchema = this.userRepository.findById(userId).orElse(null);
 
-        if (Objects.isNull(userSchema)) {
-            return null;
-        }
-
         return userSchema;
     }
 
     private ProjectSchema getProjectSchema(String projectId) {
         ProjectSchema projectSchema = this.projectRepository.findById(projectId).orElse(null);
 
-        if (Objects.isNull(projectSchema)) {
-            return null;
-        }
-
         return projectSchema;
     }
 
-    private RoleCatalogSchema getRoleCatalogSchema(int role) {
-        RoleCatalogSchema roleCatalogSchema = this.roleCatalogRepository.findById(String.valueOf(role))
+    private RoleCatalogSchema getRoleCatalogSchema(int roleId) {
+        RoleCatalogSchema roleCatalogSchema = this.roleCatalogRepository.findById(String.valueOf(roleId))
                 .orElse(null);
-
-        if (Objects.isNull(roleCatalogSchema)){
-            return null;
-        }
 
         return roleCatalogSchema;
     }

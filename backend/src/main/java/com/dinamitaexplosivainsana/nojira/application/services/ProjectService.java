@@ -15,7 +15,9 @@ public class ProjectService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
-    public ProjectService(ProjectRepository projectRepository, RoleRepository roleRepository, UserRepository userRepository) {
+    public ProjectService(ProjectRepository projectRepository,
+                          RoleRepository roleRepository,
+                          UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -28,6 +30,7 @@ public class ProjectService {
      * @return Data contract of the new project that will return to view
      */
     public CreatedProjectManagementDTO createProject(CreateProjectDTO project, String userId) {
+        User userOwner = this.userRepository.getUserByUserId(userId);
         CreateProjectValidator.validate(project);
 
         Project savedProject = this.projectRepository.saveProject(
@@ -38,10 +41,8 @@ public class ProjectService {
                 )
         );
 
-        User userOwner = this.userRepository.getUserByUserId(userId);
-
         // 0, role, is defined for project owners
-        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), 0);
+        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), 1);
 
         return new CreatedProjectManagementDTO(
                 savedProject.id(),

@@ -37,11 +37,11 @@ public class ProjectsController {
         return "Solo deberías ver esto autenticado.";
     }
 
-    @PostMapping("/user/{id}/projects/create")
+    @PostMapping("/user/{id}/projects")
     @ResponseBody
     public ResponseEntity<WrapperResponse<CreatedProjectManagementDTO>> createProject(
             @RequestBody CreateProjectDTO project,
-            @PathVariable("id") String userId
+            @PathVariable(value = "id") String userId
     ) {
         return new ResponseEntity<>(new WrapperResponse<>(
                 true,
