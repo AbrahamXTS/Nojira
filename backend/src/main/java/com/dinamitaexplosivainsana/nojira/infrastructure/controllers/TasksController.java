@@ -1,9 +1,7 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.RoleRepository;
-import com.dinamitaexplosivainsana.nojira.application.repositories.StatusRepository;
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
-import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
 import com.dinamitaexplosivainsana.nojira.application.services.TaskService;
 import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulCreatedTaskDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskCreateDTO;

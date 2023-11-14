@@ -6,7 +6,6 @@ import com.dinamitaexplosivainsana.nojira.domain.models.Status;
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import org.springframework.stereotype.Component;
@@ -86,20 +85,16 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task saveTask(Task task) {
-        UserSchema user = UserSchema.builder()
+        UserSchema userAssigned = UserSchema.builder()
                 .id(task.userAsigned().id())
                 .fullName(task.userAsigned().fullName())
                 .email(task.userAsigned().email())
                 .password(task.userAsigned().password())
                 .build();
-        ProjectSchema project =  ProjectSchema.builder()
+        ProjectSchema projectBelonging =  ProjectSchema.builder()
                 .id(task.projectBelonging().id())
                 .name(task.projectBelonging().name())
                 .description(task.projectBelonging().description())
-                .build();
-        StatusCatalogSchema status = StatusCatalogSchema.builder()
-                .id(task.status().id())
-                .type(task.status().type())
                 .build();
 
         TaskSchema taskSchema = this.taskRepository.save(
@@ -108,9 +103,9 @@ public class TaskRepositoryImpl implements TaskRepository {
                         .description(task.description())
                         .timeUsedInMinutes(task.timeUsedInMinutes())
                         .timeEstimatedInMinutes(task.timeEstimatedInMinutes())
-                        .project(project)
-                        .user(user)
-                        .status(status)
+                        .project(projectBelonging)
+                        .user(userAssigned)
+                        .status(null)
                         .build()
         );
 

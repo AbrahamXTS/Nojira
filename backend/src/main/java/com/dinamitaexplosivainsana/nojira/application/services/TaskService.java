@@ -6,13 +6,18 @@ import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulCreatedTaskDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskAssignedToDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskCreateDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskTimesDTO;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.UnauthorizedUserException;
 import com.dinamitaexplosivainsana.nojira.domain.models.*;
 import com.dinamitaexplosivainsana.nojira.domain.validators.TaskCreateValidator;
+
+import java.util.Objects;
+
+import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE;
+import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE;
 
 public class TaskService {
     private final TaskRepository taskRepository;
     private final RoleRepository roleRepository;
-
 
     public TaskService(TaskRepository taskRepository,
                        RoleRepository roleRepository) {
@@ -21,12 +26,19 @@ public class TaskService {
     }
 
     public SuccessfulCreatedTaskDTO createTask(TaskCreateDTO task, String userId, String proyectId){
+        TaskCreateValidator.validate(task);
 
-        Role role = this.roleRepository.findRoleBetweenUserAndProject(userId, proyectId);
-        TaskCreateValidator.validate(task, role);
+        Role roleBetweenUserAndProject = this.roleRepository.findRoleBetweenUserAndProject(userId, proyectId);
+        Integer proyectOwner = 1;
 
-        User userAssigned = role.user();
-        Project projectBelonging = role.project();
+        if(Objects.isNull(roleBetweenUserAndProject)){
+            throw new UnauthorizedUserException(UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE);
+        } else if(!Objects.equals(roleBetweenUserAndProject.roleCatalog().id(), proyectOwner)){
+            throw new UnauthorizedUserException(NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE);
+        }
+
+        User userAssigned = roleBetweenUserAndProject.user();
+        Project projectBelonging = roleBetweenUserAndProject.project();
 
         Task taskSaved = this.taskRepository.saveTask(
                 new Task(
@@ -37,7 +49,7 @@ public class TaskService {
                         0,
                         userAssigned,
                         projectBelonging,
-                        new Status()
+                        null
                 )
         );
 

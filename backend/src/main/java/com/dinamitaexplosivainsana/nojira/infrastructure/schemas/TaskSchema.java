@@ -3,7 +3,7 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -39,4 +39,16 @@ public class TaskSchema {
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private StatusCatalogSchema status;
+
+	@PrePersist
+	public void prePersist(){
+		if(Objects.isNull(status)){
+			this.status = StatusCatalogSchema
+					.builder()
+					.id(1)
+					.type("Por hacer")
+					.build();
+		}
+	}
+
 }

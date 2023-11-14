@@ -8,7 +8,9 @@ public class Constants {
     public static final String REQUIRED_ARGUMENT_EXCEPTION_MESSAGE = "Hey! Todos los campos son obligatorios";
     public static final String USER_ALREADY_EXIST_EXCEPTION_MESSAGE = "Hey! Este correo electrónico ya ha sido usado. Por favor, intenta de nuevo.";
     public static final String TASK_NOT_FOUND_EXCEPTION_MESSAGE = "La tarea que se desea eliminar no existe";
-    public static final String NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE = "Acceso no autorizado: el usuario no tiene permisos para realizar esta acción, ya que no es el propietario del proyecto.";
+    public static final String NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE = "Acceso no autorizado: no tienes permisos para realizar esta acción, ya que no eres el propietario del proyecto.";
+    public static final String UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE = "Acceso no autorizado: parece que no tienes ningun tipo de relación con este proyecto.";
+
     private Constants() {
     }
 }
