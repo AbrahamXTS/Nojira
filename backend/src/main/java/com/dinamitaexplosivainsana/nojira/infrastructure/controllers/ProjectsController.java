@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.BEARER_AUTHENTICATION_SCHEME_NAME;
 
 @RestController
-@RequestMapping("projects")
 @SecurityRequirement(name = BEARER_AUTHENTICATION_SCHEME_NAME)
 @CrossOrigin(maxAge = 3600, methods = {RequestMethod.OPTIONS, RequestMethod.GET}, origins = {"*"})
 @Tag(name = "Projects", description = "The projects controller contains all operations related to projects CRUD.")
@@ -32,20 +31,14 @@ public class ProjectsController {
         this.projectService = new ProjectService(projectRepository, roleRepository, userRepository);
     }
 
-    @GetMapping
-    public String getAllProjects() {
-        return "Solo deberías ver esto autenticado.";
-    }
-
     @PostMapping("/user/{id}/projects")
-    @ResponseBody
     public ResponseEntity<WrapperResponse<CreatedProjectManagementDTO>> createProject(
             @RequestBody CreateProjectDTO project,
             @PathVariable(value = "id") String userId
     ) {
         return new ResponseEntity<>(new WrapperResponse<>(
                 true,
-                "¡Proyecto creado correctamente!",
+                "¡"+ project.projectName() +" creado correctamente!",
                 projectService.createProject(project, userId)
         ),
                 HttpStatus.CREATED

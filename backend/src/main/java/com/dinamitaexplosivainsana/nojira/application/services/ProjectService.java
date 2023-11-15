@@ -9,11 +9,15 @@ import com.dinamitaexplosivainsana.nojira.domain.dto.OwnerDTO;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.domain.validators.CreateProjectValidator;
+import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.RoleSchema;
+
+import java.util.Objects;
 
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final int OWNER_ROL = 1;
 
     public ProjectService(ProjectRepository projectRepository,
                           RoleRepository roleRepository,
@@ -41,8 +45,8 @@ public class ProjectService {
                 )
         );
 
-        // 0, role, is defined for project owners
-        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), 1);
+        // 1 role, is defined for project owners
+        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), OWNER_ROL);
 
         return new CreatedProjectManagementDTO(
                 savedProject.id(),

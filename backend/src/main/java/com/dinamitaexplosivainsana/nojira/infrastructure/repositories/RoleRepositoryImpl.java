@@ -37,6 +37,7 @@ public class RoleRepositoryImpl implements RoleRepository {
                         .roleCatalog(this.getRoleCatalogSchema(roleId))
                         .build()
         );
+
     }
 
     private UserSchema getUserSchema(String userId) {
