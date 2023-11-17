@@ -18,9 +18,10 @@ public class BeansConfig {
     }
 
     @Bean
-    public ProjectService projectService(ProjectRepository projectRepository,
-                                         RoleRepository roleRepository,
-                                         UserRepository userRepository
+    public ProjectService projectService(
+            ProjectRepository projectRepository,
+            RoleRepository roleRepository,
+            UserRepository userRepository
     ) {
         return new ProjectService(projectRepository, roleRepository, userRepository);
     }

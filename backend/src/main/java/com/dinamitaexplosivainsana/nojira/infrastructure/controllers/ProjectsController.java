@@ -1,8 +1,5 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
-import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
-import com.dinamitaexplosivainsana.nojira.application.repositories.RoleRepository;
-import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepository;
 import com.dinamitaexplosivainsana.nojira.application.services.ProjectService;
 import com.dinamitaexplosivainsana.nojira.domain.dto.CreateProjectDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.CreatedProjectManagementDTO;
@@ -24,11 +21,8 @@ public class ProjectsController {
     private final ProjectService projectService;
 
     @Autowired
-    public ProjectsController(ProjectRepository projectRepository,
-                              RoleRepository roleRepository,
-                              UserRepository userRepository
-    ) {
-        this.projectService = new ProjectService(projectRepository, roleRepository, userRepository);
+    public ProjectsController(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @PostMapping("/user/{id}/projects")
@@ -38,8 +32,8 @@ public class ProjectsController {
     ) {
         return new ResponseEntity<>(new WrapperResponse<>(
                 true,
-                "¡"+ project.projectName() +" creado correctamente!",
-                projectService.createProject(project, userId)
+                "¡El proyecto "+ project.projectName() +" fue creado correctamente!",
+                projectService.create(project, userId)
         ),
                 HttpStatus.CREATED
         );
