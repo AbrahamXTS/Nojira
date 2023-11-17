@@ -5,78 +5,95 @@ import com.dinamitaexplosivainsana.nojira.domain.dto.*;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidProjectException;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidUserException;
 import com.dinamitaexplosivainsana.nojira.domain.models.*;
-import com.dinamitaexplosivainsana.nojira.domain.validators.GetProjectValidator;
+import com.dinamitaexplosivainsana.nojira.domain.validators.ProjectValidator;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.*;
 
 public class ProjectService {
-
-    private final RoleRepository roleRepository;
     private final ProjectRepository projectRepository;
-    private final UserRepository userRepository;
-    private final TaskRepository taskRepository;
+    private final RoleRepository roleRepository;
     private final StatusRepository statusRepository;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-
-    public ProjectService(RoleRepository roleRepository, ProjectRepository projectRepository, UserRepository userRepository, TaskRepository taskRepository, StatusRepository statusRepository) {
-        this.roleRepository = roleRepository;
+    public ProjectService(
+            ProjectRepository projectRepository,
+            RoleRepository roleRepository,
+            StatusRepository statusRepository,
+            TaskRepository taskRepository,
+            UserRepository userRepository
+    ) {
         this.projectRepository = projectRepository;
-        this.userRepository = userRepository;
-        this.taskRepository = taskRepository;
+        this.roleRepository = roleRepository;
         this.statusRepository = statusRepository;
+        this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     public List<ProjectDTO> getAllProjectsByUserId(String userId) {
-        GetProjectValidator.validate(userId);
-        List<ProjectDTO> projectsDTO = new ArrayList<>();
-        List<Project> projects = new ArrayList<>();
+        ProjectValidator.validate(userId);
 
-        // Esto podría ser un stream pero primero ver si funciona 🫨
-
-        List<Role> roles = roleRepository.getAllRolesByUserId(userId);
-        for (Role role : roles) {
-            if (role.roleId() == 1) {
-                Project project = projectRepository.getProjectByProjectId(role.projectId());
-                projects.add(project);
-            }
-        }
         User user = userRepository.getUserByUserId(userId);
-        OwnerDTO owner = new OwnerDTO(user.id(), user.fullName());
 
-        if (projects.isEmpty()) {
-            throw new InvalidUserException("Usuario no reconocida (cambiar esto a constante?)");
+        if (Objects.isNull(user)) {
+            throw new InvalidUserException(ERROR_USER_NOT_RECOGNIZED);
         }
 
-        for (Project project : projects) {
-            ProjectDTO projectDTO = new ProjectDTO(project.id(), project.name(), project.description(), owner);
-            projectsDTO.add(projectDTO);
-        }
-        return projectsDTO;
+        List<Project> projects = getProjectsByUserId(userId);
+
+        OwnerDTO owner = createOwnerDTO(userId);
+
+        return projects.stream()
+                .map(project -> new ProjectDTO(project.id(), project.name(), project.description(), owner))
+                .collect(Collectors.toList());
     }
 
-    public List<TaskDTO> getAllTasksPerProject(String projectId)  {
-        GetProjectValidator.validate(projectId);
+    private List<Project> getProjectsByUserId(String userId) {
+        return roleRepository.getAllRolesByUserId(userId).stream()
+                .filter(role -> role.roleId() == 1)
+                .map(role -> projectRepository.getProjectByProjectId(role.projectId()))
+                .collect(Collectors.toList());
+    }
+
+    private OwnerDTO createOwnerDTO(String userId) {
+        User user = userRepository.getUserByUserId(userId);
+        return new OwnerDTO(user.id(), user.fullName());
+    }
+
+    public List<ProjectInfoDTO> getAllTasksPerProject(String projectId) {
+        ProjectValidator.validate(projectId);
+
+        Project project = projectRepository.getProjectByProjectId(projectId);
+
+        if (Objects.isNull(project)) {
+            throw new InvalidProjectException(ERROR_PROJECT_NOT_REGISTERED);
+        }
+
         List<Task> tasks = taskRepository.getAllTasksByProjectId(projectId);
-        List<TaskDTO> taskDTOS = new ArrayList<>();
 
-        if(tasks.isEmpty()){
-            throw new InvalidProjectException("El proyecto no se encuentra registrado (mejorar y cambiar a constante?)");
-        }
+        List<TaskDTO> taskDTOs = tasks.stream()
+                .map(this::mapTaskToDTO)
+                .collect(Collectors.toList());
 
-        for(Task task: tasks){
-            Status status = statusRepository.getStatusByStatusId(task.statusId());
-            StatusDTO statusDTO = new StatusDTO(status.type());
-            TimesDTO timeDTO = new TimesDTO(task.estimated(),task.total());
-            User user = userRepository.getUserByUserId(task.userId());
-            AssignedDTO assignedDTO = new AssignedDTO(task.userId(),user.fullName());
-            TaskDTO taskDTO = new TaskDTO(task.id(),task.title(),task.description(),statusDTO,timeDTO,assignedDTO);
-            taskDTOS.add(taskDTO);
-        }
-
-        return taskDTOS;
+        return Collections.singletonList(new ProjectInfoDTO(projectId, project.name(), taskDTOs));
     }
 
+    private TaskDTO mapTaskToDTO(Task task) {
+        Status status = statusRepository.getStatusByStatusId(task.statusId());
 
+        StatusDTO statusDTO = new StatusDTO(status.type());
 
+        TimesDTO timeDTO = new TimesDTO(task.estimated(), task.total());
+
+        User user = userRepository.getUserByUserId(task.userId());
+
+        AssignedDTO assignedDTO = new AssignedDTO(task.userId(), user.fullName());
+
+        return new TaskDTO(task.id(), task.title(), task.description(), statusDTO, timeDTO, assignedDTO);
+    }
 }

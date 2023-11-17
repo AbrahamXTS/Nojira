@@ -16,4 +16,6 @@ public interface TaskRepository {
     Task deleteTaskByTaskId(String taskId);
 
     Task updateTaskByTaskId(String taskId, Task task);
+
+    List<Task> getAllTaskByProjectId(String projectId);
 }

@@ -4,14 +4,13 @@ import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidUUIDException
 
 import java.util.regex.Pattern;
 
-public  class GetProjectValidator {
-    public GetProjectValidator() {
+public  class ProjectValidator {
+    public ProjectValidator() {
     }
     public static void validate(String id){
-        if(!isUUIDValid(id)){
-            throw new InvalidUUIDException("El formato del UUID no es válido?");
+        if (!isUUIDValid(id)) {
+            throw new InvalidUUIDException("El formato del UUID no es válido");
         }
-
     }
 
     private static boolean isUUIDValid(String id){

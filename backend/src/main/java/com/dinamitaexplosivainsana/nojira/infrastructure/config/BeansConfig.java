@@ -14,8 +14,15 @@ public class BeansConfig {
     public AuthService authService(JWTUtils jwtUtils, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         return new AuthService(jwtUtils, passwordEncoder, userRepository);
     }
+
     @Bean
-    public ProjectService projectService(RoleRepository roleRepository, ProjectRepository projectRepository, UserRepository userRepository, TaskRepository taskRepository, StatusRepository statusRepository ) {
-        return new ProjectService( roleRepository,projectRepository, userRepository,taskRepository,statusRepository);
+    public ProjectService projectService(
+            ProjectRepository projectRepository,
+            RoleRepository roleRepository,
+            StatusRepository statusRepository,
+            TaskRepository taskRepository,
+            UserRepository userRepository
+    ) {
+        return new ProjectService(projectRepository, roleRepository, statusRepository, taskRepository, userRepository);
     }
 }

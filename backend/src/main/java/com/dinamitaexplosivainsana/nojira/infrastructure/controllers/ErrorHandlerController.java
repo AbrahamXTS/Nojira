@@ -25,4 +25,23 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     public ResponseEntity<WrapperResponse<Void>> invalidArgumentExceptionHandler(Exception e) {
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<WrapperResponse<Void>> userNotExistsExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidProjectException.class)
+    public ResponseEntity<WrapperResponse<Void>> projectNotExistsExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidUUIDException.class)
+    public ResponseEntity<WrapperResponse<Void>> invalidUUIDExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
 }

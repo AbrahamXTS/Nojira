@@ -2,6 +2,7 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
 import com.dinamitaexplosivainsana.nojira.application.services.ProjectService;
 import com.dinamitaexplosivainsana.nojira.domain.dto.ProjectDTO;
+import com.dinamitaexplosivainsana.nojira.domain.dto.ProjectInfoDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.TaskDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.WrapperResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -28,6 +29,7 @@ public class ProjectsController {
     public ProjectsController(ProjectService projectService){
         this.projectService = projectService;
     }
+
     @GetMapping("{userId}")
     public ResponseEntity<WrapperResponse<List<ProjectDTO>>> getAllProjects(@PathVariable String userId) {
         return new ResponseEntity<>(new WrapperResponse<>(
@@ -40,7 +42,7 @@ public class ProjectsController {
     }
 
     @GetMapping("{projectId}/tasks")
-    public ResponseEntity<WrapperResponse<List<TaskDTO>>> getAllTasksPerProject(@PathVariable String projectId){
+    public ResponseEntity<WrapperResponse<List<ProjectInfoDTO>>> getAllTasksPerProject(@PathVariable String projectId){
         return new ResponseEntity<>(new WrapperResponse<>(
                 true,
                 "Todas las tareas",
