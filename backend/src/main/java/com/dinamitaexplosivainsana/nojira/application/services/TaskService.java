@@ -19,8 +19,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final RoleRepository roleRepository;
 
-    public TaskService(TaskRepository taskRepository,
-                       RoleRepository roleRepository) {
+    public TaskService(TaskRepository taskRepository, RoleRepository roleRepository) {
         this.taskRepository = taskRepository;
         this.roleRepository = roleRepository;
     }
@@ -29,11 +28,10 @@ public class TaskService {
         TaskCreateValidator.validate(task);
 
         Role roleBetweenUserAndProject = this.roleRepository.findRoleBetweenUserAndProject(userId, proyectId);
-        Integer proyectOwner = 1;
 
         if(Objects.isNull(roleBetweenUserAndProject)){
             throw new UnauthorizedUserException(UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE);
-        } else if(!Objects.equals(roleBetweenUserAndProject.roleCatalog().id(), proyectOwner)){
+        } else if(!Objects.equals(roleBetweenUserAndProject.roleCatalog().id(), StatusCatalogEnum.TO_DO.getId())){
             throw new UnauthorizedUserException(NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE);
         }
 

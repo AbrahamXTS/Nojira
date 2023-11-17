@@ -1,5 +1,6 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 
+import com.dinamitaexplosivainsana.nojira.domain.models.StatusCatalogEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,8 +46,8 @@ public class TaskSchema {
 		if(Objects.isNull(status)){
 			this.status = StatusCatalogSchema
 					.builder()
-					.id(1)
-					.type("Por hacer")
+					.id(StatusCatalogEnum.TO_DO.getId())
+					.type(StatusCatalogEnum.TO_DO.getType())
 					.build();
 		}
 	}
