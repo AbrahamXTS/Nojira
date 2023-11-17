@@ -24,9 +24,7 @@ public class TasksController {
     private final TaskService taskService;
 
     @Autowired
-    public TasksController(TaskRepository taskRepository,
-                           RoleRepository roleRepository)
-    {
+    public TasksController(TaskRepository taskRepository, RoleRepository roleRepository) {
         this.taskService = new TaskService(taskRepository, roleRepository);
     }
 
