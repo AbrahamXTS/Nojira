@@ -3,8 +3,6 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
-
 @Getter
 @Setter
 @Builder
