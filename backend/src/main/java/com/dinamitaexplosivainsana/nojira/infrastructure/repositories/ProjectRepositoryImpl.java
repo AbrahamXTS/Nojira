@@ -8,6 +8,7 @@ import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -20,6 +21,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project getProjectByProjectId(String projectId) {
         ProjectSchema projectSchema = projectRepository.getProjectSchemaById(projectId);
+        if(Objects.isNull(projectSchema)){
+            return null;
+        }
         return new Project(projectSchema.getId(),projectSchema.getName(),projectSchema.getDescription());
     }
 
