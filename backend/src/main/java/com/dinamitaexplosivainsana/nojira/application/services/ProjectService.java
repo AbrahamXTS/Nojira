@@ -28,10 +28,14 @@ public class ProjectService {
     }
 
     /**
+     * This service can create a new project. It can also validate if any of the parameters is null
+     * and if the user is trying to create a new project is a registered user in the DB.
      *
-     * @param project Info provided for creating a new project
-     * @param userId User creating a project
-     * @return Data contract of the new project that will return to view
+     * @author Ruben Alvarado.
+     * @param project Info provided for creating a new project.
+     * @param userId User creating a new project.
+     * @return Data contract of the new project. From project: id, name, description;
+     *         from owner: owner id and owner full name.
      */
     public CreatedProjectManagementDTO create(CreateProjectDTO project, String userId) {
         User userOwner = this.userRepository.getUserByUserId(userId);
