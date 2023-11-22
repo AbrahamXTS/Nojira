@@ -21,9 +21,9 @@ public class StatusRepositoryImpl implements StatusRepository {
     @Override
     public Status getStatusByStatusId(Integer id) {
         Optional<StatusCatalogSchema> status = statusRepository.findById(id);
-        if(Objects.isNull(status)){
+        if (Objects.isNull(status)) {
             return null;
         }
-        return new Status(status.get().getId(),status.get().getType());
+        return new Status(status.get().getId(), status.get().getType());
     }
 }

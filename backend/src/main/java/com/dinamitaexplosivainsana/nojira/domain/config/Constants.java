@@ -8,10 +8,9 @@ public class Constants {
     public static final String REQUIRED_ARGUMENT_EXCEPTION_MESSAGE = "Hey! Todos los campos son obligatorios";
     public static final String USER_ALREADY_EXIST_EXCEPTION_MESSAGE = "Hey! Este correo electrónico ya ha sido usado. Por favor, intenta de nuevo.";
     public static final String TASK_NOT_FOUND_EXCEPTION_MESSAGE = "La tarea que se desea eliminar no existe";
-
-    public static final String ERROR_USER_NOT_RECOGNIZED = "El usuario no se encuentra registrado";
-
-    public static final String ERROR_PROJECT_NOT_REGISTERED = "El proyecto no se encuentra registrado";
+    public static final String ERROR_USER_NOT_RECOGNIZED_MESSAGE = "El usuario no se encuentra registrado";
+    public static final String ERROR_PROJECT_NOT_REGISTERED_MESSAGE = "El proyecto no se encuentra registrado";
+    public static final String USER_IS_NOT_IN_PROJECT_MESSAGE = "El usuario no es parte del proyecto";
 
 
     private Constants() {

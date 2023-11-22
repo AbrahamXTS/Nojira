@@ -4,8 +4,10 @@ import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepositor
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 import org.springframework.stereotype.Component;
-import java.util.*;
-import java.util.stream.*;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -34,7 +36,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> getAllTasksByUserId(String userId) {
         List<TaskSchema> tasksByUserId = this.taskRepository.getAllTasksByUserId(userId);
-        if (Objects.isNull(tasksByUserId)){
+        if (Objects.isNull(tasksByUserId)) {
             return null;
         }
         List<Task> taskList = tasksByUserId.stream()

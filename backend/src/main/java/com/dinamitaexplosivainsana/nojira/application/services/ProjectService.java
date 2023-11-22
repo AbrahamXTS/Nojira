@@ -4,6 +4,7 @@ import com.dinamitaexplosivainsana.nojira.application.repositories.*;
 import com.dinamitaexplosivainsana.nojira.domain.dto.*;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidProjectException;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidUserException;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.UnauthorizedUserException;
 import com.dinamitaexplosivainsana.nojira.domain.models.*;
 import com.dinamitaexplosivainsana.nojira.domain.validators.ProjectValidator;
 
@@ -41,7 +42,7 @@ public class ProjectService {
         User user = userRepository.getUserByUserId(userId);
 
         if (Objects.isNull(user)) {
-            throw new InvalidUserException(ERROR_USER_NOT_RECOGNIZED);
+            throw new InvalidUserException(ERROR_USER_NOT_RECOGNIZED_MESSAGE);
         }
 
         List<Project> projects = getProjectsByUserId(userId);
@@ -65,13 +66,27 @@ public class ProjectService {
         return new OwnerDTO(user.id(), user.fullName());
     }
 
-    public List<ProjectInfoDTO> getAllTasksPerProject(String projectId) {
+    public List<ProjectInfoDTO> getAllTasksPerProject(String userId, String projectId) {
         ProjectValidator.validate(projectId);
-
+        ProjectValidator.validate(userId);
         Project project = projectRepository.getProjectByProjectId(projectId);
+        List<Role> roles = roleRepository.getAllRolesByUserId(userId);
+        User user = userRepository.getUserByUserId(userId);
+
+        if (Objects.isNull(user)) {
+            throw new InvalidUserException(ERROR_USER_NOT_RECOGNIZED_MESSAGE);
+        }
 
         if (Objects.isNull(project)) {
-            throw new InvalidProjectException(ERROR_PROJECT_NOT_REGISTERED);
+            throw new InvalidProjectException(ERROR_PROJECT_NOT_REGISTERED_MESSAGE);
+        }
+
+        boolean userIsInProject = roles.stream()
+                .anyMatch(role -> Objects.equals(role.projectId(), projectId));
+
+
+        if (!userIsInProject) {
+            throw new UnauthorizedUserException(USER_IS_NOT_IN_PROJECT_MESSAGE);
         }
 
         List<Task> tasks = taskRepository.getAllTasksByProjectId(projectId);

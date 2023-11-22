@@ -10,9 +10,8 @@ import java.util.List;
 
 @Repository
 public interface JPATaskRepository extends JpaRepository<TaskSchema, String> {
-
-
     List<TaskSchema> getAllByUserId(String userId);
+
     List<TaskSchema> getTaskSchemasByProject_Id(String projectId);
 
     @Query("SELECT t FROM task t WHERE  t.user.id = :userId")

@@ -41,7 +41,10 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
-
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public ResponseEntity<WrapperResponse<Void>> invalidUserInProjectExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
 
 
 }

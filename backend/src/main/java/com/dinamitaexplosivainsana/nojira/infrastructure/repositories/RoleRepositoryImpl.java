@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 public class RoleRepositoryImpl implements RoleRepository {
@@ -47,9 +46,8 @@ public class RoleRepositoryImpl implements RoleRepository {
         List<RoleSchema> rolesSchema = this.roleRepository.findAllByUserId(userId);
         List<Role> roles = new ArrayList<>();
 
-        // igual podria ser un stream
-        for(RoleSchema roleSchema: rolesSchema){
-            Role role = new Role(roleSchema.getUser().getId(),roleSchema.getProject().getId(),roleSchema.getRoleCatalog().getId()) ;
+        for (RoleSchema roleSchema : rolesSchema) {
+            Role role = new Role(roleSchema.getUser().getId(), roleSchema.getProject().getId(), roleSchema.getRoleCatalog().getId());
             roles.add(role);
         }
         return roles;

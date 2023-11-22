@@ -2,8 +2,6 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
-import java.util.Collections;
-
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +19,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project getProjectByProjectId(String projectId) {
         ProjectSchema projectSchema = projectRepository.getProjectSchemaById(projectId);
-        if(Objects.isNull(projectSchema)){
+        if (Objects.isNull(projectSchema)) {
             return null;
         }
-        return new Project(projectSchema.getId(),projectSchema.getName(),projectSchema.getDescription());
+        return new Project(projectSchema.getId(), projectSchema.getName(), projectSchema.getDescription());
     }
 
     @Override
