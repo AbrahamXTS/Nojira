@@ -10,10 +10,12 @@ import lombok.*;
 @AllArgsConstructor
 @Entity(name = "status_catalog")
 public class StatusCatalogSchema {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(name = "type", nullable = false)
 	private String type;
+
 }

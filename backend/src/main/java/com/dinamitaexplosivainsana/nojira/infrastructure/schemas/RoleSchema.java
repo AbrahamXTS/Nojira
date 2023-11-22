@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "role")
+@IdClass(RolePK.class)
 public class RoleSchema {
 	@Id
 	@ManyToOne

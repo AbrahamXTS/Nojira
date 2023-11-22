@@ -21,12 +21,13 @@ public class TaskTrackingService {
 
         Task updatedTask=(new Task(
                 taskTrackingDTO.taskId(),
-                findTask.title(),
                 findTask.description(),
-                findTask.status(),
                 taskTrackingDTO.estimated(),
+                findTask.title(),
                 taskTrackingDTO.used(),
-                findTask.userAsigned()
+                findTask.userAsigned(),
+                findTask.projectBelonging(),
+                findTask.status()
         )
         );
         taskRepository.updateTaskByTaskId(taskId, updatedTask);
@@ -35,11 +36,11 @@ public class TaskTrackingService {
                 updatedTask.id(),
                 updatedTask.title(),
                 updatedTask.description(),
-                updatedTask.status(),
+                updatedTask.status().type(),
                 new TaskTimesDTO(
                         updatedTask.timeEstimatedInMinutes(),
                         updatedTask.timeUsedInMinutes()),
-                new AsignedToDTO(
+                new TaskAssignedToDTO(
                         updatedTask.userAsigned().id(),
                         updatedTask.userAsigned().fullName()
                 ));
