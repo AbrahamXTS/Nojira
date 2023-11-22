@@ -3,7 +3,7 @@ package com.dinamitaexplosivainsana.nojira.domain.models;
 public enum StatusCatalogEnum {
     TO_DO(1, "Por hacer"),
     IN_PROGRESS(2,"En progreso"),
-    FINALIZED(3,"Finalizado");
+    FINALIZED(3,"Finalizada");
 
     private final Integer id;
 

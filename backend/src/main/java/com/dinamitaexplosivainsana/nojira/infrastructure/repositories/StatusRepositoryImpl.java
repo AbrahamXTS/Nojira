@@ -30,7 +30,7 @@ public class StatusRepositoryImpl implements StatusRepository{
 
     @Override
     public Status findStatusById(Integer statusId) {
-        StatusCatalogSchema taskStatus = this.statusRepository.findById(Integer.valueOf(statusId))
+        StatusCatalogSchema taskStatus = this.statusRepository.findById(statusId)
                 .orElse(null);
 
         if(Objects.isNull(taskStatus)){

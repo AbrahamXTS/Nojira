@@ -1,6 +1,5 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
-import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

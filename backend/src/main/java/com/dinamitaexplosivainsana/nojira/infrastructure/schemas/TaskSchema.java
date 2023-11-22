@@ -1,7 +1,10 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 
+import com.dinamitaexplosivainsana.nojira.domain.models.StatusCatalogEnum;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -37,4 +40,16 @@ public class TaskSchema {
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private StatusCatalogSchema status;
+
+	@PrePersist
+	public void prePersist(){
+		if(Objects.isNull(status)){
+			this.status = StatusCatalogSchema
+					.builder()
+					.id(StatusCatalogEnum.TO_DO.getId())
+					.type(StatusCatalogEnum.TO_DO.getType())
+					.build();
+		}
+	}
+
 }
