@@ -1,5 +1,4 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
-package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.RolePK;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.RoleSchema;
