@@ -1,5 +1,4 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
-
 import com.dinamitaexplosivainsana.nojira.application.repositories.TaskRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
 import com.dinamitaexplosivainsana.nojira.domain.models.Status;
@@ -9,6 +8,7 @@ import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TaskRepositoryImpl implements TaskRepository {
+
     private final JPATaskRepository taskRepository;
 
     public TaskRepositoryImpl(JPATaskRepository taskRepository) {
@@ -55,7 +56,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> getAllTasksByUserId(String userId) {
         List<TaskSchema> tasksByUserId = this.taskRepository.getAllTasksByUserId(userId);
-        if (Objects.isNull(tasksByUserId)){
+        if (Objects.isNull(tasksByUserId)) {
             return null;
         }
         List<Task> taskList = tasksByUserId.stream()
@@ -159,6 +160,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 new Status(
                         taskSchema.getStatus().getId(),
                         taskSchema.getStatus().getType()
+
                 )
         );
     }
@@ -223,7 +225,6 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> getAllTaskByProjectId(String projectId) {
         List<TaskSchema> tasksByProjectId = this.taskRepository.getAllTasksByProjectId(projectId);
-
         if (Objects.isNull(tasksByProjectId)) {
             return null;
         }
@@ -247,9 +248,12 @@ public class TaskRepositoryImpl implements TaskRepository {
                         new Status(
                                 taskItem.getStatus().getId(),
                                 taskItem.getStatus().getType()
+
                         )
                 ))
                 .collect(Collectors.toList());
         return taskList;
     }
 }
+
+
