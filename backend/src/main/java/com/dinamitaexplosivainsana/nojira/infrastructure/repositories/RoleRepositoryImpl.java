@@ -6,6 +6,7 @@ import com.dinamitaexplosivainsana.nojira.domain.models.Role;
 import com.dinamitaexplosivainsana.nojira.domain.models.RoleCatalog;
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.RoleSchema;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

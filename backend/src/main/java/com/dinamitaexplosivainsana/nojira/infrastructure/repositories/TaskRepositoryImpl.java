@@ -6,6 +6,7 @@ import com.dinamitaexplosivainsana.nojira.domain.models.Status;
 import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
+import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import org.springframework.stereotype.Component;
@@ -164,7 +165,59 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task updateTaskByTaskId(String taskId, Task task) {
-        return null;
+        TaskSchema taskSchema = this.taskRepository.getReferenceById(taskId); 
+
+        taskSchema.setId(taskId);
+        taskSchema.setTitle(task.title());
+        taskSchema.setDescription(task.description());
+        taskSchema.setTimeEstimatedInMinutes(task.timeEstimatedInMinutes());
+        taskSchema.setTimeUsedInMinutes(task.timeUsedInMinutes());
+        taskSchema.setStatus(
+                StatusCatalogSchema.builder()
+                .id(task.status().id()) 
+                .type(task.status().type())
+                .build()
+        );
+        taskSchema.setUser(
+                UserSchema.builder()
+                .id(task.userAsigned().id())
+                .fullName(task.userAsigned().fullName())
+                .email(task.userAsigned().email())
+                .password(task.userAsigned().password())
+                .build()
+        ); 
+        taskSchema.setProject(
+                ProjectSchema.builder()
+                .id(task.projectBelonging().id())
+                .name(task.projectBelonging().name())
+                .description(task.projectBelonging().description())
+                .build()
+        );
+        
+        TaskSchema updatedTask = this.taskRepository.save(taskSchema); 
+
+
+        return new Task(
+                updatedTask.getId(),
+                updatedTask.getDescription(),
+                updatedTask.getTimeUsedInMinutes(),
+                updatedTask.getTitle(),
+                updatedTask.getTimeUsedInMinutes(),
+                new User(updatedTask.getUser().getId(),
+                        updatedTask.getUser().getFullName(),
+                        updatedTask.getUser().getEmail(),
+                        updatedTask.getUser().getPassword()
+                ),
+                new Project(
+                        updatedTask.getProject().getId(),
+                        updatedTask.getProject().getName(),
+                        updatedTask.getProject().getDescription()
+                ),
+                new Status(
+                        updatedTask.getStatus().getId(),
+                        updatedTask.getStatus().getType()
+                )
+        );
     }
 
     @Override

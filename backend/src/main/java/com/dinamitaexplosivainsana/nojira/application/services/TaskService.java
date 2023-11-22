@@ -12,7 +12,7 @@ import com.dinamitaexplosivainsana.nojira.domain.validators.TaskCreateValidator;
 
 import java.util.Objects;
 
-import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE;
+import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.UNAUTHORIZED_ACTION_TASK_EXCEPTION_MESSAGE;
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE;
 
 public class TaskService {
@@ -32,7 +32,7 @@ public class TaskService {
         if(Objects.isNull(roleBetweenUserAndProject)){
             throw new UnauthorizedUserException(UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE);
         } else if(!Objects.equals(roleBetweenUserAndProject.roleCatalog().id(), StatusCatalogEnum.TO_DO.getId())){
-            throw new UnauthorizedUserException(NOT_AUTHORIZED_TO_CREATE_TASK_EXCEPTION_MESSAGE);
+            throw new UnauthorizedUserException(UNAUTHORIZED_ACTION_TASK_EXCEPTION_MESSAGE);
         }
 
         User userAssigned = roleBetweenUserAndProject.user();
