@@ -25,7 +25,7 @@ public class TaskTrackingService {
                 taskTrackingDTO.estimated(),
                 findTask.title(),
                 taskTrackingDTO.used(),
-                findTask.userAsigned(),
+                findTask.userAssigned(),
                 findTask.projectBelonging(),
                 findTask.status()
         )
@@ -41,8 +41,8 @@ public class TaskTrackingService {
                         updatedTask.timeEstimatedInMinutes(),
                         updatedTask.timeUsedInMinutes()),
                 new TaskAssignedToDTO(
-                        updatedTask.userAsigned().id(),
-                        updatedTask.userAsigned().fullName()
+                        updatedTask.userAssigned().id(),
+                        updatedTask.userAssigned().fullName()
                 ));
     }
 }

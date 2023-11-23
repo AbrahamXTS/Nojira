@@ -7,13 +7,14 @@ import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSchema;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.TaskSchema;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 
+import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 
 @Component
 public class TaskRepositoryImpl implements TaskRepository {
@@ -86,12 +87,36 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
+        List<TaskSchema> taskSchemas = taskRepository.getTaskSchemasByProject_Id(projectId);
+        if (Objects.isNull(taskSchemas)) {
+            return null;
+        }
+        return taskSchemas.stream()
+                .map(this::mapTaskSchemaToTask)
+                .collect(Collectors.toList());
+    }
+
+    private Task mapTaskSchemaToTask(TaskSchema taskSchema) {
+        return new Task(
+                taskSchema.getId(),
+                taskSchema.getDescription(),
+                taskSchema.getTimeEstimatedInMinutes(),
+                taskSchema.getTimeUsedInMinutes(),
+                taskSchema.getProject().getId(),
+                taskSchema.getUser().getId(),
+                taskSchema.getTitle(),
+                taskSchema.getStatus().getId()
+        );
+    }
+
+    @Override
     public Task saveTask(Task task) {
         UserSchema userAssigned = UserSchema.builder()
-                .id(task.userAsigned().id())
-                .fullName(task.userAsigned().fullName())
-                .email(task.userAsigned().email())
-                .password(task.userAsigned().password())
+                .id(task.userAssigned().id())
+                .fullName(task.userAssigned().fullName())
+                .email(task.userAssigned().email())
+                .password(task.userAssigned().password())
                 .build();
         ProjectSchema projectBelonging =  ProjectSchema.builder()
                 .id(task.projectBelonging().id())
@@ -182,10 +207,10 @@ public class TaskRepositoryImpl implements TaskRepository {
         );
         taskSchema.setUser(
                 UserSchema.builder()
-                .id(task.userAsigned().id())
-                .fullName(task.userAsigned().fullName())
-                .email(task.userAsigned().email())
-                .password(task.userAsigned().password())
+                .id(task.userAssigned().id())
+                .fullName(task.userAssigned().fullName())
+                .email(task.userAssigned().email())
+                .password(task.userAssigned().password())
                 .build()
         ); 
         taskSchema.setProject(

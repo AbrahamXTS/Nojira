@@ -34,7 +34,7 @@ public class UpdateTaskService {
                 findedTask.timeEstimatedInMinutes(), 
                 task.title(), 
                 findedTask.timeUsedInMinutes(), 
-                findedTask.userAsigned(), 
+                findedTask.userAssigned(),
                 findedTask.projectBelonging(), 
                 findedTask.status()
             )
@@ -50,8 +50,8 @@ public class UpdateTaskService {
                     taskUpdated.timeUsedInMinutes()
                 ),
                 new TaskAsignedDTO(
-                    taskUpdated.userAsigned().id(), 
-                    taskUpdated.userAsigned().fullName()
+                    taskUpdated.userAssigned().id(),
+                    taskUpdated.userAssigned().fullName()
                 )
         );
     }

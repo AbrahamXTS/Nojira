@@ -26,6 +26,21 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<WrapperResponse<Void>> userNotExistsExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidProjectException.class)
+    public ResponseEntity<WrapperResponse<Void>> projectNotExistsExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidUUIDException.class)
+    public ResponseEntity<WrapperResponse<Void>> invalidUUIDExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UnauthorizedUserException.class)
     public ResponseEntity<WrapperResponse<Void>> unauthorizedUserExceptionHandler(Exception e){
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
@@ -35,4 +50,5 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     public ResponseEntity<WrapperResponse<Void>> taskNotFoundExceptionHandler(Exception e){
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(),null), HttpStatus.NOT_FOUND);
     }
+
 }

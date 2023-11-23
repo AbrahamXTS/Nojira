@@ -4,10 +4,11 @@ import com.dinamitaexplosivainsana.nojira.application.repositories.UserRepositor
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
 
-@Component
+@Repository
 public class UserRepositoryImpl implements UserRepository {
     private final JPAUserRepository userRepository;
 

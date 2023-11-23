@@ -7,13 +7,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+import java.util.Optional;
+
+
 @Component
 public class StatusRepositoryImpl implements StatusRepository{
 
     JPAStatusRepository statusRepository;
 
+
     public StatusRepositoryImpl(JPAStatusRepository statusRepository) {
         this.statusRepository = statusRepository;
+    }
+
+    @Override
+    public Status getStatusByStatusId(Integer id) {
+        Optional<StatusCatalogSchema> status = statusRepository.findById(id);
+        if (Objects.isNull(status)) {
+            return null;
+        }
+        return new Status(status.get().getId(), status.get().getType());
     }
 
     @Override
@@ -45,3 +58,4 @@ public class StatusRepositoryImpl implements StatusRepository{
 
 
 }
+

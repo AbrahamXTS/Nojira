@@ -61,8 +61,8 @@ public class TaskService {
                         taskSaved.timeUsedInMinutes()
                 ),
                 new TaskAssignedToDTO(
-                        taskSaved.userAsigned().id(),
-                        taskSaved.userAsigned().fullName()
+                        taskSaved.userAssigned().id(),
+                        taskSaved.userAssigned().fullName()
                 )
         );
     }

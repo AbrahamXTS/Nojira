@@ -9,11 +9,7 @@ import java.util.Objects;
 
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.TaskNotFoundException;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.UnauthorizedUserException;
-import com.dinamitaexplosivainsana.nojira.domain.models.Project;
-import com.dinamitaexplosivainsana.nojira.domain.models.Role;
-import com.dinamitaexplosivainsana.nojira.domain.models.RoleCatalog;
-import com.dinamitaexplosivainsana.nojira.domain.models.StatusCatalogEnum;
-import com.dinamitaexplosivainsana.nojira.domain.models.Task;
+import com.dinamitaexplosivainsana.nojira.domain.models.*;
 
 public class TaskAccesValidator {
 
