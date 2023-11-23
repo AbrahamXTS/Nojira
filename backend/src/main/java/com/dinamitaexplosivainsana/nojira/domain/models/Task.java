@@ -1,6 +1,4 @@
 package com.dinamitaexplosivainsana.nojira.domain.models;
 
-import java.util.Date;
-
-public record Task(String id, String description, Date estimated, String title, Date total) {
+public record Task(String id, String description, Integer estimatedInMinutes, String title, Integer usedInMinutes) {
 }

@@ -1,12 +1,12 @@
 export interface SuccesfulAuthenticationResponse {
-	ok: boolean;
-	message: string;
 	body: Body;
+	message: string;
+	ok: boolean;
 }
 
 interface Body {
-	userId: string;
 	email: string;
 	fullName: string;
 	token: string;
+	userId: string;
 }

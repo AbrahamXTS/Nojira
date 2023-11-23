@@ -1,16 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { AuthValidator } from "@/components";
+import { AuthValidator, ErrorMessage } from "@/components";
 
-import { LoginPage, SignupPage } from "@/pages/auth";
-import { Layout, Projects } from "@/pages/projects";
 import { PageNotFound } from "@/pages/PageNotFound";
+import { LoginPage, SignupPage } from "@/pages/auth";
+import { Layout, ProjectsPage, TasksPage } from "@/pages/projects";
+import { TaskPage } from "@/pages/projects/[projectId]/[taskId]";
 
 const router = createBrowserRouter([
+	{
+		path: "*",
+		element: <PageNotFound />,
+	},
+	{
+		path: "/",
+		element: <Navigate to="/projects" />,
+	},
 	{
 		path: "/auth/login",
 		element: <LoginPage />,
@@ -22,6 +31,7 @@ const router = createBrowserRouter([
 	{
 		path: "/projects",
 		element: <AuthValidator />,
+		errorElement: <ErrorMessage />,
 		children: [
 			{
 				path: "",
@@ -29,19 +39,19 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "",
-						element: <Projects />,
+						element: <ProjectsPage />,
 					},
 					{
 						path: ":projectId",
-						element: null
-					}
+						element: <TasksPage />,
+					},
+					{
+						path: ":projectId/tasks/:taskId",
+						element: <TaskPage />,
+					},
 				],
 			},
 		],
-	},
-	{
-		path: "*",
-		element: <PageNotFound />,
 	},
 ]);
 
@@ -50,6 +60,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<ChakraProvider
+			resetCSS
 			toastOptions={{
 				defaultOptions: {
 					duration: 5000,

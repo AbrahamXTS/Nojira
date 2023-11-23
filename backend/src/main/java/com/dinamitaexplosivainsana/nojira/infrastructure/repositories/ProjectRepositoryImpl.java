@@ -2,9 +2,10 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
-import java.util.Collections;
+import com.dinamitaexplosivainsana.nojira.domain.models.Task;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -22,6 +23,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public List<Project> getAllProjectsByUserId(String userId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
         return Collections.emptyList();
     }
 
