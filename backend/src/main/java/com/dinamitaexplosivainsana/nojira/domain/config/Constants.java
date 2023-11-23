@@ -11,6 +11,10 @@ public class Constants {
     public static final String ERROR_USER_NOT_RECOGNIZED_MESSAGE = "El usuario no se encuentra registrado";
     public static final String ERROR_PROJECT_NOT_REGISTERED_MESSAGE = "El proyecto no se encuentra registrado";
     public static final String USER_IS_NOT_IN_PROJECT_MESSAGE = "El usuario no es parte del proyecto";
+    public static final String UNAUTHORIZED_ACTION_TASK_EXCEPTION_MESSAGE = "Acceso no autorizado: no tienes permisos para realizar esta acción, ya que no eres el propietario del proyecto.";
+    public static final String UNRELATED_USER_IN_PROJECT_EXCEPTION_MESSAGE = "Acceso no autorizado: parece que no tienes ningun tipo de relación con este proyecto.";
+    public static final String TASK_NOT_FOUND_IN_PROJECT_EXCEPTION_MESSAGE = "Oops! La tarea que se desea actualizar no corresponde al proyecto.";
+    public static final String TASK_NOT_FOUND_FOR_TIME_ASSIGNMENT = "No se puede asignar tiempo a la tarea, ya que no se encontró la tarea correspondiente";
 
 
     private Constants() {

@@ -1,8 +1,5 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.RoleCatalogSchema;
-import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.UserSchema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

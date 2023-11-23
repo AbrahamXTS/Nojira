@@ -42,9 +42,13 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<WrapperResponse<Void>> invalidUserInProjectExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<WrapperResponse<Void>> unauthorizedUserExceptionHandler(Exception e){
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<WrapperResponse<Void>> taskNotFoundExceptionHandler(Exception e){
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(),null), HttpStatus.NOT_FOUND);
+    }
 
 }

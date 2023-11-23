@@ -103,7 +103,7 @@ public class ProjectService {
 
         StatusDTO statusDTO = new StatusDTO(status.type());
 
-        TimesDTO timeDTO = new TimesDTO(task.estimated(), task.total());
+        TimesDTO timeDTO = new TimesDTO(task.timeEstimatedInMinutes(), task.timeUsedInMinutes());
 
         User user = userRepository.getUserByUserId(task.userId());
 

@@ -10,3 +10,4 @@ import java.util.Optional;
 public interface JPAStatusRepository extends JpaRepository<StatusCatalogSchema,Integer> {
     Optional<StatusCatalogSchema> findById(Integer id);
 }
+

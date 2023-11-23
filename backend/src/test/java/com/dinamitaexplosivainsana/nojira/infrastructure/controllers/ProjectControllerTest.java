@@ -48,7 +48,7 @@ class ProjectControllerTest {
         doReturn(Collections.singletonList(new ProjectDTO("projectId", "ProjectName", "ProjectDescription", owner)))
                 .when(projectService).getAllProjectsByUserId(any());
 
-        MvcResult result = this.mockMvc.perform(get("/projects/user/userId")
+        MvcResult result = this.mockMvc.perform(get("/user/userId/projects")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(MockMvcResultHandlers.print())
@@ -77,7 +77,7 @@ class ProjectControllerTest {
         doReturn(Collections.singletonList(new ProjectInfoDTO("validProjectId", "ProjectName", Collections.singletonList(expectedTask))))
                 .when(projectService).getAllTasksPerProject(any(), any());
 
-        MvcResult result = mockMvc.perform(get("/projects/user/userId/validProjectId/tasks")
+        MvcResult result = mockMvc.perform(get("/user/userId/projects/validProjectId/tasks")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())

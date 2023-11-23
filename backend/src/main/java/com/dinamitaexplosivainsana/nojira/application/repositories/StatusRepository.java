@@ -5,4 +5,9 @@ import com.dinamitaexplosivainsana.nojira.domain.models.Status;
 
 public interface StatusRepository {
     Status getStatusByStatusId(Integer id);
+
+    Status saveStatus(Status status); 
+    
+    Status findStatusById(Integer statusId);
+
 }

@@ -8,4 +8,6 @@ public interface RoleRepository {
     void relateProjectToUser(String userId, String projectId, int role);
 
     List<Role> getAllRolesByUserId(String userId);
+
+    Role findRoleBetweenUserAndProject(String userId, String projectId);
 }
