@@ -18,23 +18,19 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-import { Spinner } from "@/components";
 import { Project } from "@/interfaces";
 import NewProjectImageURL from "@/assets/new-project.svg";
 
 interface Props {
-	isLoading: boolean;
 	projects: Project[];
 }
 
-export const ProjectsGrid = ({ isLoading, projects }: Props) => {
+export const ProjectsGrid = ({ projects }: Props) => {
 	const { colorMode } = useColorMode();
 
 	return (
 		<Center mt={10}>
-			{isLoading ? (
-				<Spinner />
-			) : projects.length > 0 ? (
+			{projects.length > 0 ? (
 				<Grid gap={3} templateColumns="repeat(3, 1fr)">
 					{projects.map(
 						({

@@ -40,6 +40,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public Project saveProject(Project project) {
         ProjectSchema projectSchema = this.projectRepository.save(
                 ProjectSchema.builder()

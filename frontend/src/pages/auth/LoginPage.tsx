@@ -40,7 +40,7 @@ export const LoginPage = () => {
 			},
 		});
 	};
-	
+
 	return (
 		<Center h="100vh">
 			<Card w="lg">
@@ -48,7 +48,11 @@ export const LoginPage = () => {
 					<VStack>
 						<HStack>
 							<IconBrandBunpo color="#7e22ce" size={100} />
-							<Heading as="h1" color={colorMode === "light" ? "#7e22ce" : "white"} size="3xl">
+							<Heading
+								as="h1"
+								color={colorMode === "light" ? "#7e22ce" : "white"}
+								size="3xl"
+							>
 								Nojira
 							</Heading>
 						</HStack>

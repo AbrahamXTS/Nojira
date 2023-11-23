@@ -1,17 +1,17 @@
-export interface ProjectsResponse {
-    ok:      boolean;
-    message: string;
-    body:    Project[];
+export interface GetProjectsResponse {
+	body: Project[];
+	message: string;
+	ok: boolean;
 }
 
 export interface Project {
-    projectId:   string;
-    projectName: string;
-    description: string;
-    owner:       Owner;
+	description: string;
+	owner: Owner;
+	projectId: string;
+	projectName: string;
 }
 
 interface Owner {
-    ownerId:       string;
-    ownerFullName: string;
+	ownerFullName: string;
+	ownerId: string;
 }
