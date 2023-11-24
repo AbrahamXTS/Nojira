@@ -1,9 +1,10 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 
+import com.dinamitaexplosivainsana.nojira.domain.models.StatusCatalogEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Time;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -20,13 +21,13 @@ public class TaskSchema {
 	private String description;
 
 	@Column(name = "estimated", nullable = false)
-	private Time estimated;
+	private Integer timeEstimatedInMinutes;
 
 	@Column(name = "title", nullable = false)
 	private String title;
 
 	@Column(name = "total", nullable = false)
-	private Time total;
+	private Integer timeUsedInMinutes;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -39,4 +40,16 @@ public class TaskSchema {
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private StatusCatalogSchema status;
+
+	@PrePersist
+	public void prePersist(){
+		if(Objects.isNull(status)){
+			this.status = StatusCatalogSchema
+					.builder()
+					.id(StatusCatalogEnum.TO_DO.getId())
+					.type(StatusCatalogEnum.TO_DO.getType())
+					.build();
+		}
+	}
+
 }

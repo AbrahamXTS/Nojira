@@ -9,9 +9,13 @@ public interface TaskRepository {
 
     List<Task> getAllTasksByUserId(String userId);
 
+    List<Task> getAllTasksByProjectId(String projectId);
+
     Task saveTask(Task task);
 
     Task deleteTaskByTaskId(String taskId);
 
     Task updateTaskByTaskId(String taskId, Task task);
+
+    List<Task> getAllTaskByProjectId(String projectId);
 }
