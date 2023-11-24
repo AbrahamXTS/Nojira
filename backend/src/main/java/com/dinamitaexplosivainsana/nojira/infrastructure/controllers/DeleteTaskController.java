@@ -26,8 +26,8 @@ public class DeleteTaskController {
         private final DeleteTaskService deleteTaskService;
 
         @Autowired
-        public DeleteTaskController(TaskRepository taskRepository) {
-            this.deleteTaskService = new DeleteTaskService(taskRepository);
+        public DeleteTaskController(DeleteTaskService deleteTaskService) {
+            this.deleteTaskService = deleteTaskService;
         }
 
         @DeleteMapping("/{userId}/projects/{projectId}/tasks/{taskId}")
