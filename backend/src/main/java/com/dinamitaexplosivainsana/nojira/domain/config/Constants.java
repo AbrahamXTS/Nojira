@@ -7,6 +7,7 @@ public class Constants {
     public static final String INVALID_FULL_NAME_FORMAT_EXCEPTION_MESSAGE = "Nombre inválido. Verifique que el nombre no contenga números o carácteres especiales";
     public static final String REQUIRED_ARGUMENT_EXCEPTION_MESSAGE = "Hey! Todos los campos son obligatorios";
     public static final String USER_ALREADY_EXIST_EXCEPTION_MESSAGE = "Hey! Este correo electrónico ya ha sido usado. Por favor, intenta de nuevo.";
+    public static final String USER_NOT_FOUND_EXCEPTION_MESSAGE = "Ops! Usuario no reconocido";
     public static final String TASK_NOT_FOUND_EXCEPTION_MESSAGE = "La tarea que se desea eliminar no existe";
     public static final String ERROR_USER_NOT_RECOGNIZED_MESSAGE = "El usuario no se encuentra registrado";
     public static final String ERROR_PROJECT_NOT_REGISTERED_MESSAGE = "El proyecto no se encuentra registrado";
@@ -16,7 +17,5 @@ public class Constants {
     public static final String TASK_NOT_FOUND_IN_PROJECT_EXCEPTION_MESSAGE = "Oops! La tarea que se desea actualizar no corresponde al proyecto.";
     public static final String TASK_NOT_FOUND_FOR_TIME_ASSIGNMENT = "No se puede asignar tiempo a la tarea, ya que no se encontró la tarea correspondiente";
 
-
-    private Constants() {
-    }
+    private Constants() {}
 }

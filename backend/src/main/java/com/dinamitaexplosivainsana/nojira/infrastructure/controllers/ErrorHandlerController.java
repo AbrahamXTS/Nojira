@@ -26,6 +26,10 @@ public class ErrorHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<WrapperResponse<Void>> userNotFoundExceptionHandler(Exception e) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(InvalidUserException.class)
     public ResponseEntity<WrapperResponse<Void>> userNotExistsExceptionHandler(Exception e) {
         return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);

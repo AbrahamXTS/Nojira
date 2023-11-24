@@ -70,7 +70,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     private RoleCatalogSchema getRoleCatalogSchema(int roleId) {
-        RoleCatalogSchema roleCatalogSchema = this.roleCatalogRepository.findById(roleId)
+        RoleCatalogSchema roleCatalogSchema = this.roleCatalogRepository.findById(String.valueOf(roleId))
                 .orElse(null);
 
         return roleCatalogSchema;

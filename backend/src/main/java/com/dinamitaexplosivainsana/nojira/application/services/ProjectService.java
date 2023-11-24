@@ -6,7 +6,9 @@ import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidProjectExcept
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.InvalidUserException;
 import com.dinamitaexplosivainsana.nojira.domain.exceptions.UnauthorizedUserException;
 import com.dinamitaexplosivainsana.nojira.domain.models.*;
+import com.dinamitaexplosivainsana.nojira.domain.validators.CreateProjectValidator;
 import com.dinamitaexplosivainsana.nojira.domain.validators.ProjectValidator;
+import com.dinamitaexplosivainsana.nojira.domain.validators.UserManagerValidator;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,17 +25,55 @@ public class ProjectService {
     private final UserRepository userRepository;
 
     public ProjectService(
-            ProjectRepository projectRepository,
-            RoleRepository roleRepository,
-            StatusRepository statusRepository,
-            TaskRepository taskRepository,
-            UserRepository userRepository
+        ProjectRepository projectRepository,
+        RoleRepository roleRepository,
+        StatusRepository statusRepository,
+        TaskRepository taskRepository,
+        UserRepository userRepository
     ) {
         this.projectRepository = projectRepository;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
         this.statusRepository = statusRepository;
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
+    }
+
+    /**
+     * This service can create a new project. It can also validate if any of the parameters is null
+     * and if the user is trying to create a new project is a registered user in the DB.
+     *
+     * @author Ruben Alvarado.
+     * @param project Info provided for creating a new project.
+     * @param userId User creating a new project.
+     * @return Data contract of the new project. From project: id, name, description;
+     *         from owner: owner id and owner full name.
+     */
+    public CreatedProjectManagementDTO create(CreateProjectDTO project, String userId) {
+        User userOwner = this.userRepository.getUserByUserId(userId);
+
+        UserManagerValidator.validate(userOwner);
+        CreateProjectValidator.validate(project);
+
+        Project savedProject = this.projectRepository.saveProject(
+                new Project(
+                        null,
+                        project.projectName(),
+                        project.description()
+                )
+        );
+
+        // 1 role, is defined for project owners
+        this.roleRepository.relateProjectToUser(userOwner.id(), savedProject.id(), RoleCatalogEnum.OWNER.getId());
+
+        return new CreatedProjectManagementDTO(
+                savedProject.id(),
+                savedProject.name(),
+                savedProject.description(),
+                new OwnerDTO(
+                        userOwner.id(),
+                        userOwner.fullName()
+                )
+        );
     }
 
     public List<ProjectDTO> getAllProjectsByUserId(String userId) {
