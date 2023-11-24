@@ -33,8 +33,8 @@ public class UpdateTaskController {
         private final UpdateTaskService updateTaskService; 
 
         @Autowired
-        public UpdateTaskController(TaskRepository taskRepository, RoleRepository roleRepository) {
-            this.updateTaskService = new UpdateTaskService(taskRepository, roleRepository); 
+        public UpdateTaskController(UpdateTaskService updateTaskService) {
+            this.updateTaskService = updateTaskService;
         }
 
         @PutMapping("/{userId}/projects/{projectId}/tasks/{taskId}")
