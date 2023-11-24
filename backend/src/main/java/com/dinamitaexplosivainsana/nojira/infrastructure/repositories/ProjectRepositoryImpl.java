@@ -2,11 +2,14 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
-import com.dinamitaexplosivainsana.nojira.domain.models.Task;
+import java.util.Collections;
+
+import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -18,11 +21,27 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project getProjectByProjectId(String projectId) {
-        return null;
+
+        ProjectSchema projectSchema = projectRepository.getProjectSchemaById(projectId);
+
+        if (Objects.isNull(projectSchema)) {
+            return null;
+        }
+
+        return new Project(
+                projectSchema.getId(),
+                projectSchema.getName(),
+                projectSchema.getDescription()
+        );
     }
 
     @Override
     public List<Project> getAllProjectsByUserId(String userId) {
+        return null;
+    }
+
+    @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
         return Collections.emptyList();
     }
 
@@ -33,7 +52,18 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project saveProject(Project project) {
-        return null;
+        ProjectSchema projectSchema = this.projectRepository.save(
+                ProjectSchema.builder()
+                        .name(project.name())
+                        .description(project.description())
+                        .build()
+        );
+
+        return new Project(
+                projectSchema.getId(),
+                projectSchema.getName(),
+                projectSchema.getDescription()
+        );
     }
 
     @Override

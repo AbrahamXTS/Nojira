@@ -26,7 +26,6 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
-
     public SuccessfulAuthenticationDTO login(UserLoginDTO user) {
         User findedUser = userRepository.getUserByEmail(user.email());
 

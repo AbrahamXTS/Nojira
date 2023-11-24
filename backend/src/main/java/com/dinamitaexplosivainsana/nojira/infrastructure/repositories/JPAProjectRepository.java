@@ -7,9 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface JPAProjectRepository extends JpaRepository<ProjectSchema, String> {
     @Query("SELECT p FROM project p WHERE p.id IN (SELECT r.project.id FROM role r WHERE r.user.id = :userId)")
     List<ProjectSchema> findProjectsByUserId(@Param("userId") String userId);
+
+    ProjectSchema getProjectSchemaById(String id);
 }
