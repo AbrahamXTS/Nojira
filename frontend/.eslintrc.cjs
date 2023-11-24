@@ -12,5 +12,6 @@ module.exports = {
 	rules: {
 		"react-refresh/only-export-components": ["off", { allowConstantExport: true }],
 		"react-hooks/exhaustive-deps": ["off"],
+		"no-mixed-spaces-and-tabs": ["off"],
 	},
 };

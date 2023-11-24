@@ -1,2 +1,4 @@
+export * from "./[projectId]";
+
 export * from "./Layout";
-export * from "./Projects";
+export * from "./ProjectsPage";

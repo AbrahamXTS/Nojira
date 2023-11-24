@@ -7,6 +7,7 @@ import java.util.Collections;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +38,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public List<Project> getAllProjectsByUserId(String userId) {
         return null;
+    }
+
+    @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Task> getAllTasksByProjectId(String projectId) {
+        return Collections.emptyList();
     }
 
     @Override

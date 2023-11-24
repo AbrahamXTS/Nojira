@@ -18,7 +18,7 @@ import { useState } from "react";
 import { CreateProjectRequest } from "@/interfaces";
 
 interface Props {
-	createProject: (project: CreateProjectRequest) => void;
+	createProject: (project: CreateProjectRequest) => boolean;
 	isLoading: boolean;
 	isOpen: boolean;
 	onClose: () => void;
@@ -31,8 +31,8 @@ export const CreateProjectModal = ({
 	onClose,
 }: Props) => {
 	const [projectData, setProjectData] = useState<CreateProjectRequest>({
+		title: "",
 		description: "",
-		projectName: "",
 	});
 
 	return (
@@ -48,34 +48,48 @@ export const CreateProjectModal = ({
 				<ModalHeader>Crear un nuevo proyecto</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody>
-					<VStack spacing={5}>
-						<FormControl>
+					<VStack
+						as="form"
+						id="create-project"
+						onSubmit={(e) => {
+							e.preventDefault();
+
+							if (createProject(projectData)) {
+								setProjectData({
+									title: "",
+									description: "",
+								});
+							}
+						}}
+						spacing={5}
+					>
+						<FormControl isRequired>
 							<FormLabel>Nombre del proyecto: </FormLabel>
 							<Input
-								onChange={(e) =>
-									setProjectData((prev) => ({
-										...prev,
-										projectName: e.target.value,
-									}))
-								}
-								placeholder="Proyecto de ejemplo"
-								type="text"
-								value={projectData.projectName}
-							/>
-						</FormControl>
-
-						<FormControl>
-							<FormLabel>Descripción del proyecto</FormLabel>
-							<Textarea
 								onChange={(e) =>
 									setProjectData((prev) => ({
 										...prev,
 										description: e.target.value,
 									}))
 								}
+								placeholder="Proyecto de ejemplo"
+								type="text"
+								value={projectData.description}
+							/>
+						</FormControl>
+
+						<FormControl isRequired>
+							<FormLabel>Descripción del proyecto</FormLabel>
+							<Textarea
+								onChange={(e) =>
+									setProjectData((prev) => ({
+										...prev,
+										title: e.target.value,
+									}))
+								}
 								placeholder="Descripción del proyecto de ejemplo"
 								resize="none"
-								value={projectData.description}
+								value={projectData.title}
 							/>
 						</FormControl>
 					</VStack>
@@ -88,15 +102,9 @@ export const CreateProjectModal = ({
 						}}
 						bgColor="#7e22ce"
 						color="#ffffff"
+						form="create-project"
 						isLoading={isLoading}
-						onClick={() => {
-							createProject(projectData);
-
-							setProjectData({
-								description: "",
-								projectName: "",
-							});
-						}}
+						type="submit"
 					>
 						Crear proyecto
 					</Button>

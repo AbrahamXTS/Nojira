@@ -14,7 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class BeansConfig {
     @Bean
-    public AuthService authService(JWTUtils jwtUtils, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AuthService authService(
+            JWTUtils jwtUtils,
+            PasswordEncoder passwordEncoder,
+            UserRepository userRepository
+    ) {
         return new AuthService(jwtUtils, passwordEncoder, userRepository);
     }
 

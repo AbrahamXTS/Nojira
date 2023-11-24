@@ -10,3 +10,21 @@ export const axiosSecured = axios.create({
 		Authorization: `Bearer ${bearerToken}`,
 	},
 });
+
+axiosSecured.interceptors.response.use(
+	(response) => {
+		return response;
+	},
+	(error) => {
+		const status = error.response.status;
+
+		if (status === 401 || status === 403) {
+			window.localStorage.removeItem("authUser");
+
+			window.location.href = "/auth/login";
+			return;
+		}
+
+		return Promise.reject(error);
+	},
+);

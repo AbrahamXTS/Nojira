@@ -11,7 +11,7 @@ import {
 	Text,
 	useColorMode,
 } from "@chakra-ui/react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { IconBrandBunpo, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 
 import { deleteAuthUser, getAuthUser } from "@/utils";
@@ -45,7 +45,7 @@ export const Layout = () => {
 					px="4"
 					w="full"
 				>
-					<Flex align="center">
+					<Flex align="center" as={Link} to="/projects">
 						<IconBrandBunpo color="#7e22ce" size="30" />
 						<Text fontSize="3xl" fontWeight="bold" ml="2">
 							Nojira
