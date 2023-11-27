@@ -13,43 +13,33 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity(name = "task")
 public class TaskSchema {
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-	@Column(name = "description", nullable = false)
-	private String description;
+    @Column
+    private String description;
 
-	@Column(name = "estimated", nullable = false)
-	private Integer timeEstimatedInMinutes;
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer timeEstimatedInMinutes = 0;
 
-	@Column(name = "title", nullable = false)
-	private String title;
+    @Column(nullable = false)
+    private String title;
 
-	@Column(name = "total", nullable = false)
-	private Integer timeUsedInMinutes;
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer timeUsedInMinutes = 0;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private ProjectSchema project;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private ProjectSchema project;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private UserSchema user;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private UserSchema user;
 
-	@OneToOne
-	@JoinColumn(nullable = false)
-	private StatusCatalogSchema status;
-
-	@PrePersist
-	public void prePersist(){
-		if(Objects.isNull(status)){
-			this.status = StatusCatalogSchema
-					.builder()
-					.id(StatusCatalogEnum.TO_DO.getId())
-					.type(StatusCatalogEnum.TO_DO.getType())
-					.build();
-		}
-	}
-
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private StatusCatalogSchema status;
 }

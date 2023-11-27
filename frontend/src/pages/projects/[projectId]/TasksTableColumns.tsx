@@ -55,7 +55,7 @@ export const tasksTableColumns: ColumnDef<Task>[] = [
 		),
 	},
 	{
-		accessorFn: (row) => row.asignedTo.userName,
+		accessorFn: (row) => row.assignedTo.ownerFullName,
 		enableSorting: true,
 		header: "Asignación",
 		cell: ({ getValue }) => (

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class RolePK implements Serializable {
+public class RoleSchemaPK implements Serializable {
     private UserSchema user;
     private ProjectSchema project;
     private RoleCatalogSchema roleCatalog;

@@ -2,16 +2,13 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.repositories;
 
 import com.dinamitaexplosivainsana.nojira.application.repositories.ProjectRepository;
 import com.dinamitaexplosivainsana.nojira.domain.models.Project;
-import java.util.Collections;
-
+import com.dinamitaexplosivainsana.nojira.infrastructure.mappers.ProjectMapper;
 import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.ProjectSchema;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
-@Component
+@Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
     private final JPAProjectRepository projectRepository;
 
@@ -21,58 +18,21 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project getProjectByProjectId(String projectId) {
-
-        ProjectSchema projectSchema = projectRepository.getProjectSchemaById(projectId);
+        ProjectSchema projectSchema = projectRepository.findById(projectId)
+                .orElse(null);
 
         if (Objects.isNull(projectSchema)) {
             return null;
         }
 
-        return new Project(
-                projectSchema.getId(),
-                projectSchema.getName(),
-                projectSchema.getDescription()
-        );
-    }
-
-    @Override
-    public List<Project> getAllProjectsByUserId(String userId) {
-        return null;
-    }
-
-    @Override
-    public List<Task> getAllTasksByProjectId(String projectId) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Task> getAllTasksByProjectId(String projectId) {
-        return Collections.emptyList();
+        return ProjectMapper.mapToModel(projectSchema);
     }
 
     @Override
     public Project saveProject(Project project) {
-        ProjectSchema projectSchema = this.projectRepository.save(
-                ProjectSchema.builder()
-                        .name(project.name())
-                        .description(project.description())
-                        .build()
-        );
+        ProjectSchema projectSchema = this.projectRepository
+                .save(ProjectMapper.mapToSchema(project));
 
-        return new Project(
-                projectSchema.getId(),
-                projectSchema.getName(),
-                projectSchema.getDescription()
-        );
-    }
-
-    @Override
-    public Project deleteProjectByProjectId(String projectId) {
-        return null;
-    }
-
-    @Override
-    public Project updateProjectByProjectId(String projectId, Project project) {
-        return null;
+        return ProjectMapper.mapToModel(projectSchema);
     }
 }

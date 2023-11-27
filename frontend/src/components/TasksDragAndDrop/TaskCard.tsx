@@ -82,7 +82,7 @@ export const TaskCard = ({ task }: Props) => {
 				</HStack>
 			</VStack>
 			<VStack h="full" justifyContent="space-between">
-				<Avatar name={task.content.asignedTo.userName} />
+				<Avatar name={task.content.assignedTo.ownerFullName} />
 				<Icon as={IconMenu} color="yellow.400" />
 			</VStack>
 		</HStack>

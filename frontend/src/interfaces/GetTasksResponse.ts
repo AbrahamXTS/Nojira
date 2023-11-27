@@ -11,17 +11,17 @@ interface Body {
 }
 
 export interface Task {
-	asignedTo: AsignedTo;
+	taskId: string;
+	title: string;
 	description: string;
 	status: string;
-	taskId: string;
 	times: Times;
-	title: string;
+	assignedTo: AssignedTo;
 }
 
-interface AsignedTo {
-	userId: string;
-	userName: string;
+interface AssignedTo {
+	ownerId: string;
+	ownerFullName: string;
 }
 
 interface Times {

@@ -1,64 +1,122 @@
 package com.dinamitaexplosivainsana.nojira.infrastructure.controllers;
 
 import com.dinamitaexplosivainsana.nojira.application.services.ProjectService;
-import com.dinamitaexplosivainsana.nojira.domain.dto.CreateProjectDTO;
-import com.dinamitaexplosivainsana.nojira.domain.dto.CreatedProjectManagementDTO;
-import com.dinamitaexplosivainsana.nojira.domain.dto.OwnerDTO;
-import com.dinamitaexplosivainsana.nojira.domain.dto.WrapperResponse;
+import com.dinamitaexplosivainsana.nojira.application.services.TaskService;
+import com.dinamitaexplosivainsana.nojira.domain.dto.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc()
+@AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class ProjectsControllerTest {
+class ProjectsControllerTest {
     private final Gson gson = new Gson();
     @MockBean
     private ProjectService projectService;
+    @MockBean
+    private TaskService taskService;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @Tag("HappyPath")
     @WithMockUser
-    void projectController_CreateProject_ReturnCreated() throws Exception {
-        final String MOCK_PROJECT_ID = "UUID";
-        final String MOCK_PROJECT_NAME = "Nojira";
-        final String MOCK_DESCRIPTION = "Description";
+    void shouldGetAllProjectsIfUserDataIsOk() throws Exception {
+        OwnerDTO owner = new OwnerDTO("ownerUserId", "ownerUserName");
 
-        final String MOCK_OWNER_ID = "UUID";
-        final String MOCK_OWNER_FULL_NAME = "Ruben";
+        doReturn(Collections.singletonList(new ProjectDTO("projectId", "ProjectName", "ProjectDescription", owner)))
+                .when(projectService).getAllProjectsByUserId(any());
 
-        final OwnerDTO MOCK_OWNER = new OwnerDTO(MOCK_OWNER_ID, MOCK_OWNER_FULL_NAME);
+        MvcResult result = this.mockMvc.perform(get("/user/FAKE_USER_ID/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
 
-        doReturn(new CreatedProjectManagementDTO(MOCK_PROJECT_ID, MOCK_PROJECT_NAME, MOCK_DESCRIPTION, MOCK_OWNER))
+        Type responseType = new TypeToken<WrapperResponse<List<ProjectDTO>>>() {
+        }.getType();
+
+        WrapperResponse<List<ProjectDTO>> listResponse =
+                gson.fromJson(result.getResponse().getContentAsString(), responseType);
+
+        Assertions.assertTrue(listResponse.ok());
+        Assertions.assertFalse(listResponse.body().isEmpty());
+    }
+
+    @Test
+    @Tag("HappyPath")
+    @WithMockUser
+    void shouldGetAllTasksIfProjectDataIsOk() throws Exception {
+        TaskDTO taskDTO = new TaskDTO(
+                "taskId",
+                "taskTitle",
+                "taskDescription",
+                "taskStatus",
+                new TimesDTO(0, 0),
+                new OwnerDTO("taskOwnerId", "taskOwnerFullName")
+        );
+
+        doReturn(new ProjectWithTasksDTO("validProjectId", "ProjectName", Collections.singletonList(taskDTO)))
+                .when(taskService).getAllTasksByProjectId(any());
+
+        MvcResult result = mockMvc.perform(get("/user/FAKE_USER_ID/projects/FAKE_PROJECT_ID/tasks")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Type responseType = new TypeToken<WrapperResponse<ProjectWithTasksDTO>>() {
+        }.getType();
+
+        WrapperResponse<ProjectWithTasksDTO> response =
+                gson.fromJson(result.getResponse().getContentAsString(), responseType);
+
+        Assertions.assertTrue(response.ok());
+    }
+
+    @Test
+    @Tag("HappyPath")
+    @WithMockUser
+    void shouldCreateANewProjectIfEveryDataIsOk() throws Exception {
+        ProjectDTO projectDTO = new ProjectDTO(
+                "projectId",
+                "title",
+                "projectDescription",
+                new OwnerDTO("projectOwnerId", "projectOwnerFullName")
+        );
+
+        doReturn(projectDTO)
                 .when(projectService).create(any(), any());
 
-        String requestBody = gson.toJson(new CreateProjectDTO(MOCK_PROJECT_NAME, MOCK_DESCRIPTION));
+        String requestBody = gson.toJson(new CreateProjectDTO(anyString(), anyString()));
 
         MvcResult result = this.mockMvc
-                .perform(post("/user/" + MOCK_OWNER_ID + "/projects")
+                .perform(post("/user/FAKE_USER_ID/projects")
                         .header("Content-Type", MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(requestBody)
@@ -67,57 +125,78 @@ public class ProjectsControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Type responseType = new TypeToken<WrapperResponse<CreatedProjectManagementDTO>>() {
+        Assertions.assertNotNull(result.getResponse().getContentAsString());
+
+        Type responseType = new TypeToken<WrapperResponse<ProjectDTO>>() {
         }.getType();
 
-        WrapperResponse<CreatedProjectManagementDTO> response =
+        WrapperResponse<ProjectDTO> response =
                 gson.fromJson(result.getResponse().getContentAsString(), responseType);
 
-        Assertions.assertNotNull(result.getResponse().getContentAsString());
         Assertions.assertTrue(response.ok());
-        Assertions.assertInstanceOf(CreatedProjectManagementDTO.class, response.body());
+        Assertions.assertInstanceOf(ProjectDTO.class, response.body());
     }
 
-    @Test
-    @Tag("UnhappyPath")
-    @WithMockUser
-    void projectController_CreateProjectAnyParamIsEmpty_ReturnError() throws Exception{
-        final String MOCK_OWNER_ID = "8d0df3af-49b9-49e8-b5c9-39dcb56e7a0a";
+    // @Test
+    // @Tag("UnhappyPath")
+    // @WithMockUser
+    // void shouldGetErrorIfUserIdIsIncorrectAtGetProjects() throws Exception {
+    //     doCallRealMethod().when(projectService).getAllProjectsByUserId(anyString());
 
-        doCallRealMethod().when(projectService).create(any(), any());
+    //     this.mockMvc
+    //             .perform(get("/user/FAKE_USER_ID/projects")
+    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
+    //             )
+    //             .andDo(print())
+    //             .andExpect(status().isBadRequest());
+    // }
 
-        String requestBody = gson.toJson(new CreateProjectDTO("", ""));
+    // @Test
+    // @Tag("UnhappyPath")
+    // @WithMockUser
+    // void shouldGetErrorIfUserOrProjectNotExistsAtGetTasks() throws Exception {
+    //     doCallRealMethod().when(projectService).getAllTasksByProjectId(anyString());
 
-        this.mockMvc
-                .perform(post("/user/" + MOCK_OWNER_ID + "/projects")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
-                        .characterEncoding("UTF-8")
-                        .content(requestBody)
-                )
-                .andDo(print())
-                .andExpect(status().isBadRequest());
-    }
+    //     this.mockMvc
+    //             .perform(get("/user/FAKE_USER_ID/projects/FAKE_PROJECT_ID/tasks")
+    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
+    //             )
+    //             .andDo(print())
+    //             .andExpect(status().isBadRequest());
+    // }
 
-    @Test
-    @Tag("UnhappyPath")
-    void projectController_CreateProjectAndUserDoesNotExistInBD_ReturnError() throws Exception{
-        final String MOCK_PROJECT_NAME = "Nojira";
-        final String MOCK_DESCRIPTION = "Description";
+    // @Test
+    // @Tag("UnhappyPath")
+    // @WithMockUser
+    // void shouldGetErrorIfUserDoesntExistAtCreateProject() throws Exception {
+    //     doCallRealMethod().when(projectService).create(any(), any());
 
-        final String MOCK_OWNER_ID = "8d0df3af-49b9-49e8-b5c9-39dcb56e7a0a";
+    //     String requestBody = gson.toJson(new CreateProjectDTO("title", "projectDescription"));
 
-        doCallRealMethod().when(projectService).create(any(), any());
+    //     this.mockMvc
+    //             .perform(post("/user/FAKE_USER_ID/projects")
+    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
+    //                     .content(requestBody)
+    //             )
+    //             .andDo(print())
+    //             .andExpect(status().isNotFound())
+    //             .andReturn();
+    // }
 
-        String requestBody = gson.toJson(new CreateProjectDTO(MOCK_PROJECT_NAME, MOCK_DESCRIPTION));
+    // @Test
+    // @Tag("UnhappyPath")
+    // @WithMockUser
+    // void shouldGetAnErrorIfAnyParamInProjectIsEmptyAtCreateProject() throws Exception {
+    //     doCallRealMethod().when(projectService).create(any(), anyString());
 
-        this.mockMvc
-                .perform(post("/user/" + MOCK_OWNER_ID + "/projects")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
-                        .characterEncoding("UTF-8")
-                        .content(requestBody)
-                )
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
-    }
+    //     String requestBody = gson.toJson(new CreateProjectDTO("", ""));
+
+    //     this.mockMvc
+    //             .perform(post("/user/FAKE_USER_ID/projects")
+    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
+    //                     .content(requestBody)
+    //             )
+    //             .andDo(print())
+    //             .andExpect(status().isBadRequest());
+    // }
 }

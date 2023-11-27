@@ -4,10 +4,7 @@ import com.dinamitaexplosivainsana.nojira.infrastructure.schemas.StatusCatalogSc
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface JPAStatusRepository extends JpaRepository<StatusCatalogSchema,Integer> {
-    Optional<StatusCatalogSchema> findById(Integer id);
+public interface JPAStatusRepository extends JpaRepository<StatusCatalogSchema, Integer> {
+    StatusCatalogSchema findByType(String type);
 }
-

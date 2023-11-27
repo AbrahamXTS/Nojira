@@ -8,8 +8,4 @@ public interface UserRepository {
     User getUserByEmail(String email);
 
     User saveUser(User user);
-
-    User deleteUserByUserId(String userId);
-
-    User updateUserByUserId(String userId, User user);
 }

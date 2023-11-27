@@ -48,7 +48,9 @@ export const CreateTaskModal = ({ createTask, isLoading, isOpen, onClose }: Prop
 						onSubmit={(e) => {
 							e.preventDefault();
 
-							if (createTask(taskData.title, taskData.description)) {
+							const isSuccess = createTask(taskData.title, taskData.description);
+
+							if (isSuccess) {
 								setTaskData({
 									title: "",
 									description: "",
@@ -72,7 +74,7 @@ export const CreateTaskModal = ({ createTask, isLoading, isOpen, onClose }: Prop
 							/>
 						</FormControl>
 
-						<FormControl isRequired>
+						<FormControl>
 							<FormLabel>Descripción de la tarea</FormLabel>
 							<Textarea
 								onChange={(e) =>
