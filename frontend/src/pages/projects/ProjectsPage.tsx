@@ -76,21 +76,21 @@ export const ProjectsPage = () => {
 						Proyectos
 					</Heading>
 
-					<Box mt={3}>
-						<Flex justifyContent="flex-end">
-							<Button
-								_hover={{
-									bgColor: "#661CA6",
-								}}
-								bgColor="#7e22ce"
-								color="#ffffff"
-								leftIcon={<IconPlus />}
-								onClick={createProjectModalDisclosure.onOpen}
-							>
-								Crear nuevo proyecto
-							</Button>
-						</Flex>
-					</Box>
+					<Flex justifyContent="flex-end" mt={3}>
+						<Button
+							_hover={{
+								bgColor: "#661CA6",
+							}}
+							bgColor="#7e22ce"
+							color="#ffffff"
+							leftIcon={<IconPlus />}
+							mt={5}
+							onClick={createProjectModalDisclosure.onOpen}
+							w={["full", "auto"]}
+						>
+							Crear nuevo proyecto
+						</Button>
+					</Flex>
 
 					<ProjectsGrid projects={projects} />
 

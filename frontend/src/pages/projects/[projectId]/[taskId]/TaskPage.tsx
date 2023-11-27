@@ -126,13 +126,14 @@ export const TaskPage = () => {
 						mx="auto"
 						pb="1px"
 						size="lg"
-						w="max-content"
+						textAlign="center"
+						w={["full", "max-content"]}
 					>
 						{task.title}
 					</Heading>
 
-					<Flex justifyContent="flex-end" mt={3}>
-						<ButtonGroup>
+					<Flex justifyContent={["center", "flex-end"]} mt={3}>
+						<ButtonGroup mt={5}>
 							<Button
 								_hover={{
 									bgColor: "#661CA6",
@@ -162,7 +163,7 @@ export const TaskPage = () => {
 
 					<Center mt={10}>
 						<VStack as="form" spacing={5} w="full">
-							<HStack spacing={3} w="full">
+							<HStack flexDir={["column", "row"]} spacing={3} w="full">
 								<FormControl>
 									<FormLabel>Nombre de la tarea:</FormLabel>
 									<Input

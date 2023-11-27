@@ -98,13 +98,14 @@ export const TasksPage = () => {
 						mx="auto"
 						pb="1px"
 						size="lg"
-						w="max-content"
+						textAlign="center"
+						w={["full", "max-content"]}
 					>
 						{projectName}
 					</Heading>
 
 					<Flex justifyContent="flex-end" mt={3}>
-						<ButtonGroup>
+						<ButtonGroup mt={5} w={["full", "auto"]}>
 							<Button
 								_hover={{
 									bgColor: "#661CA6",
@@ -113,6 +114,7 @@ export const TasksPage = () => {
 								color="#ffffff"
 								leftIcon={<IconPlus />}
 								onClick={createTaskModalDisclosure.onOpen}
+								w="full"
 							>
 								Crear nueva tarea
 							</Button>

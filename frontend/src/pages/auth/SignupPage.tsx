@@ -162,6 +162,7 @@ export const SignupPage = () => {
 								bgColor: "#661CA6",
 							}}
 							color="#ffffff"
+							isLoading={signupService.isPending}
 							bgColor="#7e22ce"
 							onClick={onSignup}
 						>

@@ -64,7 +64,15 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 				onDragStart={onDragStart}
 				sensors={sensors}
 			>
-				<Grid gap={5} templateColumns="repeat(3,1fr)">
+				<Grid
+					gap={5}
+					templateColumns={[
+						"1fr",
+						"repeat(2, 1fr)",
+						"repeat(2, 1fr)",
+						"repeat(3,1fr)",
+					]}
+				>
 					<SortableContext items={columnsId}>
 						{columns.map((column) => (
 							<ColumnContainer

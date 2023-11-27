@@ -124,6 +124,7 @@ export const LoginPage = () => {
 								bgColor: "#661CA6",
 							}}
 							bgColor="#7e22ce"
+							isLoading={loginService.isPending}
 							color="#ffffff"
 							onClick={onLogin}
 						>

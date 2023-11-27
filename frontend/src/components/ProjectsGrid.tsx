@@ -31,7 +31,7 @@ export const ProjectsGrid = ({ projects }: Props) => {
 	return (
 		<Center mt={10}>
 			{projects.length > 0 ? (
-				<Grid gap={3} templateColumns="repeat(3, 1fr)">
+				<Grid gap={3} templateColumns={["1fr", "repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(4, 1fr)"]} w="full">
 					{projects.map(
 						({
 							description,
@@ -39,10 +39,10 @@ export const ProjectsGrid = ({ projects }: Props) => {
 							projectId,
 							owner: { ownerFullName },
 						}) => (
-							<LinkBox as={GridItem} key={projectId}>
+							<LinkBox as={GridItem} h="273px" key={projectId} w="full">
 								<Card
 									bgColor={colorMode === "light" ? "" : "gray.800"}
-									w="80"
+									h="full"
 								>
 									<CardHeader>
 										<HStack justifyContent="space-between">
@@ -65,7 +65,7 @@ export const ProjectsGrid = ({ projects }: Props) => {
 											as={Link}
 											to={`/projects/${projectId}`}
 										>
-											<Text>{description}</Text>
+											<Text >{description}</Text>
 										</LinkOverlay>
 									</CardBody>
 									<CardFooter flexDir="column" gap={1}>
