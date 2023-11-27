@@ -5,8 +5,8 @@ import com.dinamitaexplosivainsana.nojira.application.utils.JWTUtils;
 import com.dinamitaexplosivainsana.nojira.domain.dto.SuccessfulAuthenticationDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserLoginDTO;
 import com.dinamitaexplosivainsana.nojira.domain.dto.UserSignupDTO;
-import com.dinamitaexplosivainsana.nojira.domain.exceptions.AuthenticationFailedException;
-import com.dinamitaexplosivainsana.nojira.domain.exceptions.UserAlreadyExistsException;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.UnauthorizedAccessException;
+import com.dinamitaexplosivainsana.nojira.domain.exceptions.ConflictWithExistingResourceException;
 import com.dinamitaexplosivainsana.nojira.domain.models.User;
 import com.dinamitaexplosivainsana.nojira.domain.validators.UserSignupValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,11 +26,12 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
+    
     public SuccessfulAuthenticationDTO login(UserLoginDTO user) {
         User findedUser = userRepository.getUserByEmail(user.email());
 
         if (Objects.isNull(findedUser) || !(passwordEncoder.matches(user.password(), findedUser.password()))) {
-            throw new AuthenticationFailedException(AUTHENTICATION_FAILED_EXCEPTION_MESSAGE);
+            throw new UnauthorizedAccessException(AUTHENTICATION_FAILED_EXCEPTION_MESSAGE);
         }
 
         return new SuccessfulAuthenticationDTO(
@@ -45,7 +46,7 @@ public class AuthService {
         UserSignupValidator.validate(user);
 
         if (Objects.nonNull(userRepository.getUserByEmail(user.email()))) {
-            throw new UserAlreadyExistsException(USER_ALREADY_EXIST_EXCEPTION_MESSAGE);
+            throw new ConflictWithExistingResourceException(USER_ALREADY_EXIST_EXCEPTION_MESSAGE);
         }
 
         User savedUser = this.userRepository.saveUser(

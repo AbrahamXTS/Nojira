@@ -10,10 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @Entity(name = "role_catalog")
 public class RoleCatalogSchema {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(name = "type", nullable = false, unique = true)
-	private String type;
+    @Column(nullable = false, unique = true)
+    private String type;
 }

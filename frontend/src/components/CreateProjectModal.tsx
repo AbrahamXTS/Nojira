@@ -69,12 +69,12 @@ export const CreateProjectModal = ({
 								onChange={(e) =>
 									setProjectData((prev) => ({
 										...prev,
-										description: e.target.value,
+										title: e.target.value,
 									}))
 								}
 								placeholder="Proyecto de ejemplo"
 								type="text"
-								value={projectData.description}
+								value={projectData.title}
 							/>
 						</FormControl>
 
@@ -84,12 +84,12 @@ export const CreateProjectModal = ({
 								onChange={(e) =>
 									setProjectData((prev) => ({
 										...prev,
-										title: e.target.value,
+										description: e.target.value,
 									}))
 								}
 								placeholder="Descripción del proyecto de ejemplo"
 								resize="none"
-								value={projectData.title}
+								value={projectData.description}
 							/>
 						</FormControl>
 					</VStack>

@@ -8,13 +8,12 @@ import {
 	useSensor,
 	useSensors,
 } from "@dnd-kit/core";
-import { Grid, Portal } from "@chakra-ui/react";
+import { Box, Grid, Portal } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
 import { STATUS_CATALOG, Task } from "@/interfaces";
 
-import { Spinner } from "../Spinner";
 import { TaskCard } from "./TaskCard";
 import { ColumnContainer } from "./ColumnContainer";
 import { DroppingZoneInfo, DraggableInfo } from "./types";
@@ -58,48 +57,43 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 	);
 
 	return (
-		<>
-			{tasks.length > 0 ? (
-				<DndContext
-					onDragEnd={onDragEnd}
-					onDragOver={onDragOver}
-					onDragStart={onDragStart}
-					sensors={sensors}
-				>
-					<Grid gap={5} templateColumns="repeat(3,1fr)">
-						<SortableContext items={columnsId}>
-							{columns.map((column) => (
+		<Box w="full">
+			<DndContext
+				onDragEnd={onDragEnd}
+				onDragOver={onDragOver}
+				onDragStart={onDragStart}
+				sensors={sensors}
+			>
+				<Grid gap={5} templateColumns="repeat(3,1fr)">
+					<SortableContext items={columnsId}>
+						{columns.map((column) => (
+							<ColumnContainer
+								key={column.id}
+								column={column}
+								content={tasks.filter(
+									(item) => item.columnId === column.id,
+								)}
+							/>
+						))}
+					</SortableContext>
+
+					<Portal>
+						<DragOverlay>
+							{activeColumn && (
 								<ColumnContainer
-									key={column.id}
-									column={column}
+									column={activeColumn}
 									content={tasks.filter(
-										(item) => item.columnId === column.id,
+										(item) => item.columnId === activeColumn.id,
 									)}
 								/>
-							))}
-						</SortableContext>
+							)}
 
-						<Portal>
-							<DragOverlay>
-								{activeColumn && (
-									<ColumnContainer
-										column={activeColumn}
-										content={tasks.filter(
-											(item) =>
-												item.columnId === activeColumn.id,
-										)}
-									/>
-								)}
-
-								{activeTask && <TaskCard task={activeTask} />}
-							</DragOverlay>
-						</Portal>
-					</Grid>
-				</DndContext>
-			) : (
-				<Spinner />
-			)}
-		</>
+							{activeTask && <TaskCard task={activeTask} />}
+						</DragOverlay>
+					</Portal>
+				</Grid>
+			</DndContext>
+		</Box>
 	);
 
 	function onDragStart(event: DragStartEvent) {

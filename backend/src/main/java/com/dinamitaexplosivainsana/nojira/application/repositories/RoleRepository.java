@@ -7,6 +7,8 @@ import java.util.List;
 public interface RoleRepository {
     void relateProjectToUser(String userId, String projectId, int role);
 
+    List<Role> getAllRolesByProjectId(String projectId);
+
     List<Role> getAllRolesByUserId(String userId);
 
     Role findRoleBetweenUserAndProject(String userId, String projectId);

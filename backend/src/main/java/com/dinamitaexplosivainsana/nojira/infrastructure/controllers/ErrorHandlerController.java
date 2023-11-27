@@ -11,48 +11,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ErrorHandlerController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(AuthenticationFailedException.class)
-    public ResponseEntity<WrapperResponse<Void>> authenticationFailedExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(ConflictWithExistingResourceException.class)
+    public ResponseEntity<WrapperResponse<Void>> conflictWithExistingResourceExceptionHandler(Exception exception) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, exception.getMessage(), null), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<WrapperResponse<Void>> userAlreadyExistsExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.CONFLICT);
+    @ExceptionHandler(InvalidArgumentException.class)
+    public ResponseEntity<WrapperResponse<Void>> invalidArgumentExceptionHandler(Exception exception) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, exception.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {RequiredArgumentException.class, InvalidEmailFormatException.class, InvalidFullNameFormatException.class})
-    public ResponseEntity<WrapperResponse<Void>> invalidArgumentExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<WrapperResponse<Void>> resourceNotFoundExceptionHandler(Exception exception) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, exception.getMessage(), null), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<WrapperResponse<Void>> userNotFoundExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<WrapperResponse<Void>> unauthorizedAccessExceptionHandler(Exception exception) {
+        return new ResponseEntity<>(new WrapperResponse<>(false, exception.getMessage(), null), HttpStatus.UNAUTHORIZED);
     }
-    @ExceptionHandler(InvalidUserException.class)
-    public ResponseEntity<WrapperResponse<Void>> userNotExistsExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(InvalidProjectException.class)
-    public ResponseEntity<WrapperResponse<Void>> projectNotExistsExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(InvalidUUIDException.class)
-    public ResponseEntity<WrapperResponse<Void>> invalidUUIDExceptionHandler(Exception e) {
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public ResponseEntity<WrapperResponse<Void>> unauthorizedUserExceptionHandler(Exception e){
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(), null), HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<WrapperResponse<Void>> taskNotFoundExceptionHandler(Exception e){
-        return new ResponseEntity<>(new WrapperResponse<>(false, e.getMessage(),null), HttpStatus.NOT_FOUND);
-    }
-
 }

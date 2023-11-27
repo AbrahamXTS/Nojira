@@ -12,16 +12,15 @@ public class RoleCatalogInitializer implements CommandLineRunner {
     private final RoleCatalogRepositoryImpl roleCatalogRepositoryImpl;
 
     public RoleCatalogInitializer(RoleCatalogRepositoryImpl roleCatalogRepositoryImpl) {
-        this.roleCatalogRepositoryImpl = roleCatalogRepositoryImpl; 
+        this.roleCatalogRepositoryImpl = roleCatalogRepositoryImpl;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-
-        RoleCatalog ownerRole = new RoleCatalog(RoleCatalogEnum.OWNER.getId(), RoleCatalogEnum.OWNER.getType()); 
-        RoleCatalog invitedRole = new RoleCatalog(RoleCatalogEnum.INVITED.getId(), RoleCatalogEnum.INVITED.getType()); 
+    public void run(String... args) {
+        RoleCatalog ownerRole = new RoleCatalog(RoleCatalogEnum.OWNER.getId(), RoleCatalogEnum.OWNER.getType());
+        RoleCatalog invitedRole = new RoleCatalog(RoleCatalogEnum.INVITED.getId(), RoleCatalogEnum.INVITED.getType());
 
         roleCatalogRepositoryImpl.saveRoleCatalog(ownerRole);
         roleCatalogRepositoryImpl.saveRoleCatalog(invitedRole);
-    }    
+    }
 }

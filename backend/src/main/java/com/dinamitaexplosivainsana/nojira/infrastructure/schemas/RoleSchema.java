@@ -9,20 +9,20 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "role")
-@IdClass(RolePK.class)
+@IdClass(RoleSchemaPK.class)
 public class RoleSchema {
-	@Id
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private UserSchema user;
+    @Id
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private UserSchema user;
 
-	@Id
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private ProjectSchema project;
+    @Id
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private ProjectSchema project;
 
-	@Id
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private RoleCatalogSchema roleCatalog;
+    @Id
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private RoleCatalogSchema roleCatalog;
 }

@@ -23,10 +23,7 @@ import { IconCheck, IconEdit, IconTrash } from "@tabler/icons-react";
 
 import {
 	useDeleteTaskService,
-	useEditTaskAssignmentService,
-	useEditTaskDescriptionService,
-	useEditTaskStatusService,
-	useEditTaskTimesService,
+	useEditTaskService,
 	useGetParticipantsFromProjectService,
 	useGetTaskService,
 } from "@/services";
@@ -40,15 +37,13 @@ export const TaskPage = () => {
 	const editTaskAlertDisclosure = useDisclosure();
 	const deleteTaskAlertDisclosure = useDisclosure();
 
-	const editTaskAssignmentService = useEditTaskAssignmentService();
-	const editTaskDescriptionService = useEditTaskDescriptionService();
-	const editTaskStatusService = useEditTaskStatusService();
-	const editTaskTimesService = useEditTaskTimesService();
+	const editTaskService = useEditTaskService();
 	const deleteTaskService = useDeleteTaskService();
 	const getTaskService = useGetTaskService();
 	const getParticipantsFromProjectService = useGetParticipantsFromProjectService();
 
 	const [task, setTask] = useState<Task>({} as Task);
+	const [prevEditTaskInfo, setPrevEditTaskInfo] = useState({} as Task);
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const [isOnEditMode, setIsOnEditMode] = useState(false);
 
@@ -62,6 +57,7 @@ export const TaskPage = () => {
 			{
 				onSuccess: ({ data: { body } }) => {
 					setTask(body);
+					setPrevEditTaskInfo(body);
 				},
 			},
 		);
@@ -95,7 +91,7 @@ export const TaskPage = () => {
 						status: "success",
 					});
 
-					navigate(`/projects/${projectId}`);
+					navigate(`/projects/${projectId}`, { replace: true });
 				},
 			},
 		);
@@ -106,55 +102,10 @@ export const TaskPage = () => {
 			return navigate("/projects");
 		}
 
-		let success = true;
-
-		editTaskDescriptionService.mutate(
-			{
-				description: task.description,
-				taskId: task.taskId,
-				title: task.title,
-				projectId,
-			},
-			{
-				onError: () => (success = false),
-			},
-		);
-
-		editTaskStatusService.mutate(
-			{
-				statusId: STATUS_CATALOG[task.status as keyof typeof STATUS_CATALOG],
-				taskId: task.taskId,
-				projectId,
-			},
-			{
-				onError: () => (success = false),
-			},
-		);
-
-		editTaskTimesService.mutate(
-			{
-				estimated: task.times.estimated,
-				used: task.times.used,
-				taskId: task.taskId,
-				projectId,
-			},
-			{
-				onError: () => (success = false),
-			},
-		);
-
-		editTaskAssignmentService.mutate(
-			{
-				newOwnerId: task.asignedTo.userId,
-				projectId: projectId,
-				taskId: task.taskId,
-			},
-			{
-				onError: () => (success = false),
-			},
-		);
-
-		return success;
+		editTaskService.mutate({
+			...task,
+			projectId,
+		});
 	};
 
 	useEffect(() => {
@@ -267,13 +218,13 @@ export const TaskPage = () => {
 									onChange={(e) =>
 										setTask((prev) => ({
 											...prev,
-											asignedTo: {
-												...prev.asignedTo,
-												userId: e.target.value,
+											assignedTo: {
+												...prev.assignedTo,
+												ownerId: e.target.value,
 											},
 										}))
 									}
-									value={task.asignedTo.userId}
+									value={task.assignedTo.ownerId}
 								>
 									{participants.map((participant) => (
 										<option
@@ -333,27 +284,24 @@ export const TaskPage = () => {
 
 					<ConfirmDialog
 						confirmMessage="Sí, editar"
-						isLoading={
-							editTaskAssignmentService.isPending ||
-							editTaskDescriptionService.isPending ||
-							editTaskStatusService.isPending ||
-							editTaskTimesService.isPending
-						}
+						isLoading={editTaskService.isPending}
 						isOpen={editTaskAlertDisclosure.isOpen}
 						message={`¿Deseas guardar los cambios realizados sobre esta tarea?`}
 						title="¿Guardar cambios?"
-						onClose={editTaskAlertDisclosure.onClose}
+						onClose={() => {
+							setTask(prevEditTaskInfo);
+							editTaskAlertDisclosure.onClose();
+						}}
 						onConfirm={() => {
-							if (editTask()) {
-								editTaskAlertDisclosure.onClose();
+							editTask();
+							editTaskAlertDisclosure.onClose();
 
-								toast({
-									title: "¡Cambios realizados correctamente!",
-									description:
-										"Hemos guardado tus cambios correctamente",
-									status: "success",
-								});
-							}
+							toast({
+								title: "¡Cambios realizados correctamente!",
+								description:
+									"Hemos guardado tus cambios correctamente",
+								status: "success",
+							});
 						}}
 					/>
 
