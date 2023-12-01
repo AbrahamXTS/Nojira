@@ -5,6 +5,7 @@ import {
 	DragOverlay,
 	DragStartEvent,
 	PointerSensor,
+	TouchSensor,
 	useSensor,
 	useSensors,
 } from "@dnd-kit/core";
@@ -49,6 +50,7 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 	}, [data]);
 
 	const sensors = useSensors(
+		useSensor(TouchSensor),
 		useSensor(PointerSensor, {
 			activationConstraint: {
 				distance: 10,
@@ -152,6 +154,7 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 
 		const isOverATask = over.data.current?.type === "Task";
 		const isActiveATask = active.data.current?.type === "Task";
+		const isOverAColumn = over.data.current?.type === "Column";
 
 		if (!isActiveATask) return;
 
@@ -160,8 +163,7 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 				const overIndex = tasks.findIndex((task) => task.id === overId);
 				const activeIndex = tasks.findIndex((task) => task.id === activeId);
 
-				if (tasks[activeIndex].columnId != tasks[overIndex].columnId) {
-					// Aquí se hace el cambio de status visualmente
+				if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
 					tasks[activeIndex].columnId = tasks[overIndex].columnId;
 					return arrayMove(tasks, activeIndex, overIndex - 1);
 				}
@@ -170,11 +172,15 @@ export function KanbanBoard({ data }: Readonly<Props>) {
 			});
 		}
 
-		const isOverAColumn = over.data.current?.type === "Column";
-
 		if (isActiveATask && isOverAColumn) {
 			setTasks((tasks) => {
 				const activeIndex = tasks.findIndex((task) => task.id === activeId);
+
+				// The task moves over the same column
+				if (tasks[activeIndex].columnId === overId) {
+					return tasks;
+				}
+
 				tasks[activeIndex].columnId = overId;
 				return arrayMove(tasks, activeIndex, activeIndex);
 			});

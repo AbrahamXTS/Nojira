@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class RoleSchemaPK implements Serializable {
-    private UserSchema user;
-    private ProjectSchema project;
-    private RoleCatalogSchema roleCatalog;
+    private transient UserSchema user;
+    private transient ProjectSchema project;
+    private transient RoleCatalogSchema roleCatalog;
 }

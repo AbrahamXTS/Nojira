@@ -24,7 +24,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
 class ProjectsControllerTest {
+    private static final String PROJECTS_ENDPOINT = "/user/FAKE_USER_ID/projects";
     private final Gson gson = new Gson();
     @MockBean
     private ProjectService projectService;
@@ -51,7 +52,7 @@ class ProjectsControllerTest {
         doReturn(Collections.singletonList(new ProjectDTO("projectId", "ProjectName", "ProjectDescription", owner)))
                 .when(projectService).getAllProjectsByUserId(any());
 
-        MvcResult result = this.mockMvc.perform(get("/user/FAKE_USER_ID/projects")
+        MvcResult result = this.mockMvc.perform(get(PROJECTS_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -84,7 +85,7 @@ class ProjectsControllerTest {
         doReturn(new ProjectWithTasksDTO("validProjectId", "ProjectName", Collections.singletonList(taskDTO)))
                 .when(taskService).getAllTasksByProjectId(any());
 
-        MvcResult result = mockMvc.perform(get("/user/FAKE_USER_ID/projects/FAKE_PROJECT_ID/tasks")
+        MvcResult result = mockMvc.perform(get(PROJECTS_ENDPOINT + "/FAKE_PROJECT_ID/tasks")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -116,7 +117,7 @@ class ProjectsControllerTest {
         String requestBody = gson.toJson(new CreateProjectDTO(anyString(), anyString()));
 
         MvcResult result = this.mockMvc
-                .perform(post("/user/FAKE_USER_ID/projects")
+                .perform(post(PROJECTS_ENDPOINT)
                         .header("Content-Type", MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(requestBody)
@@ -136,67 +137,4 @@ class ProjectsControllerTest {
         Assertions.assertTrue(response.ok());
         Assertions.assertInstanceOf(ProjectDTO.class, response.body());
     }
-
-    // @Test
-    // @Tag("UnhappyPath")
-    // @WithMockUser
-    // void shouldGetErrorIfUserIdIsIncorrectAtGetProjects() throws Exception {
-    //     doCallRealMethod().when(projectService).getAllProjectsByUserId(anyString());
-
-    //     this.mockMvc
-    //             .perform(get("/user/FAKE_USER_ID/projects")
-    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
-    //             )
-    //             .andDo(print())
-    //             .andExpect(status().isBadRequest());
-    // }
-
-    // @Test
-    // @Tag("UnhappyPath")
-    // @WithMockUser
-    // void shouldGetErrorIfUserOrProjectNotExistsAtGetTasks() throws Exception {
-    //     doCallRealMethod().when(projectService).getAllTasksByProjectId(anyString());
-
-    //     this.mockMvc
-    //             .perform(get("/user/FAKE_USER_ID/projects/FAKE_PROJECT_ID/tasks")
-    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
-    //             )
-    //             .andDo(print())
-    //             .andExpect(status().isBadRequest());
-    // }
-
-    // @Test
-    // @Tag("UnhappyPath")
-    // @WithMockUser
-    // void shouldGetErrorIfUserDoesntExistAtCreateProject() throws Exception {
-    //     doCallRealMethod().when(projectService).create(any(), any());
-
-    //     String requestBody = gson.toJson(new CreateProjectDTO("title", "projectDescription"));
-
-    //     this.mockMvc
-    //             .perform(post("/user/FAKE_USER_ID/projects")
-    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
-    //                     .content(requestBody)
-    //             )
-    //             .andDo(print())
-    //             .andExpect(status().isNotFound())
-    //             .andReturn();
-    // }
-
-    // @Test
-    // @Tag("UnhappyPath")
-    // @WithMockUser
-    // void shouldGetAnErrorIfAnyParamInProjectIsEmptyAtCreateProject() throws Exception {
-    //     doCallRealMethod().when(projectService).create(any(), anyString());
-
-    //     String requestBody = gson.toJson(new CreateProjectDTO("", ""));
-
-    //     this.mockMvc
-    //             .perform(post("/user/FAKE_USER_ID/projects")
-    //                     .header("Content-Type", MediaType.APPLICATION_JSON)
-    //                     .content(requestBody)
-    //             )
-    //             .andDo(print())
-    //             .andExpect(status().isBadRequest());
-    // }
 }

@@ -31,7 +31,16 @@ export const ProjectsGrid = ({ projects }: Props) => {
 	return (
 		<Center mt={10}>
 			{projects.length > 0 ? (
-				<Grid gap={3} templateColumns={["1fr", "repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(4, 1fr)"]} w="full">
+				<Grid
+					gap={3}
+					templateColumns={[
+						"1fr",
+						"repeat(2, 1fr)",
+						"repeat(2, 1fr)",
+						"repeat(4, 1fr)",
+					]}
+					w="full"
+				>
 					{projects.map(
 						({
 							description,
@@ -60,12 +69,17 @@ export const ProjectsGrid = ({ projects }: Props) => {
 											/>
 										</HStack>
 									</CardHeader>
-									<CardBody py={1}>
+									<CardBody overflow="hidden" w="full" py={1}>
 										<LinkOverlay
 											as={Link}
 											to={`/projects/${projectId}`}
 										>
-											<Text >{description}</Text>
+											<Text
+												textOverflow="ellipsis"
+												w="full"
+											>
+												{description}
+											</Text>
 										</LinkOverlay>
 									</CardBody>
 									<CardFooter flexDir="column" gap={1}>

@@ -23,7 +23,6 @@ export const TaskCard = ({ task }: Props) => {
 	const { setNodeRef, attributes, listeners, transform, transition, isDragging } =
 		useSortable({
 			id: task.id,
-			disabled: true,
 			data: {
 				type: "Task",
 				task,

@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
 class AuthControllerTest {
+    private static final String SIGNUP_ENDPOINT = "/auth/signup";
     private final Gson gson = new Gson();
     @MockBean
     private AuthService authService;
@@ -50,8 +51,8 @@ class AuthControllerTest {
         String requestBody = gson.toJson(new UserSignupDTO(MOCK_FULL_NAME, MOCK_EMAIL, MOCK_PASSWORD));
 
         MvcResult result = this.mockMvc
-                .perform(post("/auth/signup")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
+                .perform(post(SIGNUP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
                 .andDo(print())
@@ -77,8 +78,8 @@ class AuthControllerTest {
                 .toJson(new UserSignupDTO("", "", ""));
 
         this.mockMvc
-                .perform(post("/auth/signup")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
+                .perform(post(SIGNUP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
                 .andDo(print())
@@ -94,8 +95,8 @@ class AuthControllerTest {
                 .toJson(new UserSignupDTO("John 1", "John.doe@nojira.com", "Password"));
 
         this.mockMvc
-                .perform(post("/auth/signup")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
+                .perform(post(SIGNUP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
                 .andDo(print())
@@ -111,8 +112,8 @@ class AuthControllerTest {
                 .toJson(new UserSignupDTO("John Doe", "john.com", "Password"));
 
         this.mockMvc
-                .perform(post("/auth/signup")
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
+                .perform(post(SIGNUP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 )
                 .andDo(print())

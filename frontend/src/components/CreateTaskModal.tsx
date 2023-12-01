@@ -74,7 +74,7 @@ export const CreateTaskModal = ({ createTask, isLoading, isOpen, onClose }: Prop
 							/>
 						</FormControl>
 
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel>Descripción de la tarea</FormLabel>
 							<Textarea
 								onChange={(e) =>
