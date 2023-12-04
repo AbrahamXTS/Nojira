@@ -15,12 +15,21 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Objects;
-
+/**
+ * Custom Spring Security filter for JWT authorization.
+ * This filter intercepts requests, extracts JWT from the "Authorization" header,
+ * validates the token, and sets up Spring Security authentication if the token is valid.
+ */
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	private final JWTUtils jwtUtils;
 	private final UserDetailsService userDetailsService;
-
+     /**
+	 * Constructor to initialize the JWTAuthorizationFilter with JWTUtils and UserDetailsService.
+	 *
+	 * @param jwtUtils            Utility class for JWT operations.
+	 * @param userDetailsService  Service for loading user details by username.
+	 */
 	public JWTAuthorizationFilter(
 			JWTUtils jwtUtils,
 			UserDetailsServiceImpl userDetailsService
@@ -28,6 +37,15 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		this.jwtUtils = jwtUtils;
 		this.userDetailsService = userDetailsService;
 	}
+	/**
+	 * Performs the actual filtering for JWT authorization.
+	 *
+	 * @param request       The HTTP request.
+	 * @param response      The HTTP response.
+	 * @param filterChain   The filter chain.
+	 * @throws ServletException If a servlet-related error occurs.
+	 * @throws IOException      If an I/O error occurs.
+	 */
 
 	@Override
 	protected void doFilterInternal(

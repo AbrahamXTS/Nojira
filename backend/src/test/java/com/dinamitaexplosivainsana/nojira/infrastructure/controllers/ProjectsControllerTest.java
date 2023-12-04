@@ -29,7 +29,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+/**
+ * JUnit tests for the {@link ProjectsController} class.
+ * These tests cover various scenarios related to project management and tasks.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -42,7 +45,10 @@ class ProjectsControllerTest {
     private TaskService taskService;
     @Autowired
     private MockMvc mockMvc;
-
+    /**
+     * Test for retrieving all projects associated with a user when user data is valid.
+     * Expects a successful response with a list of projects.
+     */
     @Test
     @Tag("HappyPath")
     @WithMockUser
@@ -68,7 +74,10 @@ class ProjectsControllerTest {
         Assertions.assertTrue(listResponse.ok());
         Assertions.assertFalse(listResponse.body().isEmpty());
     }
-
+    /**
+     * Test for retrieving all tasks associated with a project when project data is valid.
+     * Expects a successful response with a project containing tasks.
+     */
     @Test
     @Tag("HappyPath")
     @WithMockUser
@@ -99,7 +108,10 @@ class ProjectsControllerTest {
 
         Assertions.assertTrue(response.ok());
     }
-
+    /**
+     * Test for creating a new project when all provided data is valid.
+     * Expects a successful creation response with the created project details.
+     */
     @Test
     @Tag("HappyPath")
     @WithMockUser

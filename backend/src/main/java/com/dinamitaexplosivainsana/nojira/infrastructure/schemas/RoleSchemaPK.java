@@ -6,7 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
+/**
+ * Represents the composite primary key for the RoleSchema entity.
+ * This key is composed of UserSchema, ProjectSchema, and RoleCatalogSchema instances.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

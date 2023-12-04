@@ -15,13 +15,22 @@ import java.util.Objects;
 
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.PROJECT_NOT_FOUND_EXCEPTION_MESSAGE;
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.TASK_NOT_FOUND_EXCEPTION_MESSAGE;
-
+/**
+ * Service that manages operations related to task management in projects.
+ */
 public class TaskService {
     private final ProjectRepository projectRepository;
     private final RoleRepository roleRepository;
     private final StatusCatalogRepository statusCatalogRepository;
     private final TaskRepository taskRepository;
-
+     /**
+     * Constructor for the task service.
+     *
+     * @param projectRepository       Project repository used to access and manipulate project information.
+     * @param roleRepository          Role repository used to access and manipulate information about roles associated with projects.
+     * @param statusCatalogRepository Status catalog repository used to access and manipulate information about task statuses.
+     * @param taskRepository          Task repository used to access and manipulate information about tasks in projects.
+     */
     public TaskService(
             ProjectRepository projectRepository,
             RoleRepository roleRepository,
@@ -33,7 +42,15 @@ public class TaskService {
         this.statusCatalogRepository = statusCatalogRepository;
         this.taskRepository = taskRepository;
     }
-
+    /**
+     * Retrieves information about a task specified by its unique identifier.
+     *
+     * @param taskId    Unique identifier of the task to be retrieved.
+     * @param userId    Unique identifier of the user making the request.
+     * @param projectId Unique identifier of the project to which the task belongs.
+     * @return {@code TaskDTO} object with information about the task.
+     * @throws ResourceNotFoundException If the task or the project is not found in the system.
+     */
     public TaskDTO getTask(String taskId, String userId, String projectId) {
         Task findedTask = this.taskRepository.getTaskByTaskId(taskId);
 
@@ -57,7 +74,13 @@ public class TaskService {
                 )
         );
     }
-
+    /**
+     * Retrieves the list of tasks associated with a project specified by its unique identifier.
+     *
+     * @param projectId Unique identifier of the project for which the list of tasks is to be obtained.
+     * @return {@code ProjectWithTasksDTO} object with information about the project and its list of associated tasks.
+     * @throws ResourceNotFoundException If the project is not found in the system.
+     */
     public ProjectWithTasksDTO getAllTasksByProjectId(String projectId) {
         Project project = projectRepository.getProjectByProjectId(projectId);
 
@@ -79,7 +102,15 @@ public class TaskService {
 
         return new ProjectWithTasksDTO(project.id(), project.name(), tasks);
     }
-
+    /**
+     * Creates a new task in the system.
+     *
+     * @param task      {@code TaskCreateDTO} object containing the information of the new task.
+     * @param userId    Unique identifier of the user making the request.
+     * @param projectId Unique identifier of the project to which the task belongs.
+     * @return {@code TaskDTO} object with information about the created task.
+     * @throws ResourceNotFoundException If the project is not found in the system.
+     */
     public TaskDTO createTask(TaskCreateDTO task, String userId, String projectId) {
         TaskDataValidator.validateTaskDataIsNotEmpty(task.title(), task.description());
 
@@ -118,7 +149,15 @@ public class TaskService {
                 )
         );
     }
-
+    /**
+     * Deletes a task specified by its unique identifier.
+     *
+     * @param taskId    Unique identifier of the task to be deleted.
+     * @param userId    Unique identifier of the user making the request.
+     * @param projectId Unique identifier of the project to which the task belongs.
+     * @return {@code TaskDTO} object with information about the deleted task.
+     * @throws ResourceNotFoundException If the task is not found in the system.
+     */
     public TaskDTO deleteTask(String taskId, String userId, String projectId) {
         Task findTask = this.taskRepository.getTaskByTaskId(taskId);
 
@@ -145,7 +184,16 @@ public class TaskService {
                 new OwnerDTO(deletedTask.user().id(), deletedTask.user().fullName())
         );
     }
-
+    /**
+     * Updates the information of a task specified by its unique identifier.
+     *
+     * @param task      {@code TaskDTO} object containing the updated information of the task.
+     * @param userId    Unique identifier of the user making the request.
+     * @param projectId Unique identifier of the project to which the task belongs.
+     * @param taskId    Unique identifier of the task to be updated.
+     * @return {@code TaskDTO} object with the updated information of the task.
+     * @throws ResourceNotFoundException If the task is not found in the system.
+     */
     public TaskDTO updateTask(TaskDTO task, String userId, String projectId, String taskId) {
         TaskDataValidator.validateTaskDataIsNotEmpty(task.title(), task.description());
 

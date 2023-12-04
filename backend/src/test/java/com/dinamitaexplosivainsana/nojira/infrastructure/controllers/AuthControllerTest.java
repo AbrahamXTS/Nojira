@@ -20,11 +20,15 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.lang.reflect.Type;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+/**
+ * JUnit tests for the {@link AuthController} class.
+ * These tests cover various scenarios related to user authentication.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-test.properties")
@@ -35,7 +39,10 @@ class AuthControllerTest {
     private AuthService authService;
     @Autowired
     private MockMvc mockMvc;
-
+    /**
+     * Test for registering a new user when all provided data is valid.
+     * Expects a successful registration and a response containing authentication details.
+     */
     @Test
     @Tag("HappyPath")
     void shouldRegisterANewUserIfEveryDataIsOk() throws Exception {
@@ -68,7 +75,11 @@ class AuthControllerTest {
         Assertions.assertTrue(response.ok());
         Assertions.assertInstanceOf(SuccessfulAuthenticationDTO.class, response.body());
     }
-
+    /**
+     * Test to ensure that a required argument exception is thrown
+     * if any parameter is empty during user signup.
+     * Expects a "Bad Request" response status.
+     */
     @Test
     @Tag("UnhappyPath")
     void shouldThrowRequiredArgumentExceptionIfAnyParamIsEmpty() throws Exception {
@@ -85,7 +96,11 @@ class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
-
+    /**
+     * Test to ensure that a full name format exception is thrown
+     * if the name parameter contains a number during user signup.
+     * Expects a "Bad Request" response status.
+     */
     @Test
     @Tag("UnhappyPath")
     void shouldThrowFullNameFormatExceptionIfNameParamContainsANumber() throws Exception {
@@ -102,7 +117,11 @@ class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
-
+    /**
+     * Test to ensure that an email format exception is thrown
+     * if an invalid email is provided during user signup.
+     * Expects a "Bad Request" response status.
+     */
     @Test
     @Tag("UnhappyPath")
     void shouldThrowEmailFormatExceptionIfEmailIsInvalid() throws Exception {

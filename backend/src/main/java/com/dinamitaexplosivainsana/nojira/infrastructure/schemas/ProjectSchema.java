@@ -2,7 +2,10 @@ package com.dinamitaexplosivainsana.nojira.infrastructure.schemas;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+/**
+ * Represents the JPA entity for projects in the database.
+ * Instances of this class are managed by JPA and stored in the "project" table.
+ */
 @Getter
 @Setter
 @Builder

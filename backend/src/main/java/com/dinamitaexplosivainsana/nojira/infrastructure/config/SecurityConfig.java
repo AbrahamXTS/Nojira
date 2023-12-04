@@ -15,14 +15,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+/**
+ * Configuration class for setting up Spring Security in the application.
+ * It defines authentication and authorization rules, as well as security filters.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
     private final UserDetailsService userDetailsService;
-
+     /**
+     * Constructs a {@code SecurityConfig} instance.
+     *
+     * @param jwtAuthorizationFilter The JWT authorization filter for handling JWT authentication.
+     * @param userDetailsService      The service providing user-related information.
+     */
     public SecurityConfig(
             JWTAuthorizationFilter jwtAuthorizationFilter,
             UserDetailsService userDetailsService
@@ -30,12 +38,20 @@ public class SecurityConfig {
         this.jwtAuthorizationFilter = jwtAuthorizationFilter;
         this.userDetailsService = userDetailsService;
     }
-
+    /**
+     * Provides a bean for the {@code PasswordEncoder} interface using BCrypt hashing.
+     *
+     * @return The BCryptPasswordEncoder bean.
+     */
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    /**
+     * Configures and provides a bean for {@code DaoAuthenticationProvider}.
+     *
+     * @return The configured DaoAuthenticationProvider bean.
+     */
     @Bean
     public DaoAuthenticationProvider configureDaoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -45,7 +61,13 @@ public class SecurityConfig {
 
         return daoAuthenticationProvider;
     }
-
+    /**
+     * Configures the main security settings for the application.
+     *
+     * @param httpSecurity The HttpSecurity object to configure.
+     * @return The configured SecurityFilterChain bean.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain configureSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

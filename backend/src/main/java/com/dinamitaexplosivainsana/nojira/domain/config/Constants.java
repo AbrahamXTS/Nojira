@@ -1,4 +1,7 @@
 package com.dinamitaexplosivainsana.nojira.domain.config;
+/**
+ * Class that contains constants used in the domain configuration.
+ */
 
 public class Constants {
     public static final String AUTHENTICATION_FAILED_EXCEPTION_MESSAGE = "Ops! Verifica tu usuario o contraseña";
