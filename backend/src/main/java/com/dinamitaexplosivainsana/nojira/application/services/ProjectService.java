@@ -10,12 +10,20 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.*;
-
+/**
+ * Service that manages operations related to project management.
+ */
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-
+    /**
+     * Constructor for the project service.
+     *
+     * @param projectRepository Project repository used to access and manipulate project information.
+     * @param roleRepository    Role repository used to access and manipulate information about roles associated with projects.
+     * @param userRepository    User repository used to access and manipulate user information.
+     */
     public ProjectService(
             ProjectRepository projectRepository,
             RoleRepository roleRepository,
@@ -25,7 +33,13 @@ public class ProjectService {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     }
-
+    /**
+     * Retrieves the list of participants in a project specified by its unique identifier.
+     *
+     * @param projectId Unique identifier of the project for which the list of participants is to be obtained.
+     * @return List of {@code ParticipantDTO} objects with information about the participants in the project.
+     * @throws ResourceNotFoundException If the project is not found in the system.
+     */
     public List<ParticipantDTO> getAllParticipantsByProjectId(String projectId) {
         Project project = projectRepository.getProjectByProjectId(projectId);
 
@@ -44,7 +58,13 @@ public class ProjectService {
                 )
                 .toList();
     }
-
+    /**
+     * Retrieves the list of projects associated with a user specified by their unique identifier.
+     *
+     * @param userId Unique identifier of the user for whom the list of projects is to be obtained.
+     * @return List of {@code ProjectDTO} objects with information about the projects associated with the user.
+     * @throws ResourceNotFoundException If the user is not found in the system.
+     */
     public List<ProjectDTO> getAllProjectsByUserId(String userId) {
         User owner = userRepository.getUserByUserId(userId);
 

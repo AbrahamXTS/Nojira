@@ -9,10 +9,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.BEARER_AUTHENTICATION_SCHEME_NAME;
-
+/**
+ * This class provides configuration for the OpenAPI documentation of the application.
+ * It uses the @Configuration annotation to indicate that it is a source of bean definitions.
+ * The @SecurityScheme annotation is used to define the security scheme for the API.
+ */
 @Configuration
 @SecurityScheme(name = BEARER_AUTHENTICATION_SCHEME_NAME, type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 public class OpenAPIConfig {
+/**
+     * Configures the OpenAPI bean.
+     *
+     * @return An instance of OpenAPI with the custom information.
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

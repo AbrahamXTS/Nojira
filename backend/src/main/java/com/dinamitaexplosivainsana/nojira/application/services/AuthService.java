@@ -15,18 +15,32 @@ import java.util.Objects;
 
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.AUTHENTICATION_FAILED_EXCEPTION_MESSAGE;
 import static com.dinamitaexplosivainsana.nojira.domain.config.Constants.USER_ALREADY_EXIST_EXCEPTION_MESSAGE;
-
+/**
+ * Authentication service that manages operations related to user login and registration.
+ */
 public class AuthService {
     private final JWTUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
+    /**
+     * Constructor for the authentication service.
+     *
+     * @param jwtUtils          Utility for the generation and validation of JWT tokens.
+     * @param passwordEncoder   Password encoder used to securely store passwords.
+     * @param userRepository    User repository used to access and manipulate user information.
+     */
     public AuthService(JWTUtils jwtUtils, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
-    
+    /**
+     * Performs the login of a user.
+     *
+     * @param user {@code UserLoginDTO} object containing the user's login information.
+     * @return {@code SuccessfulAuthenticationDTO} object with information about successful authentication.
+     * @throws UnauthorizedAccessException If authentication fails due to incorrect credentials.
+     */
     public SuccessfulAuthenticationDTO login(UserLoginDTO user) {
         User findedUser = userRepository.getUserByEmail(user.email());
 
@@ -41,7 +55,13 @@ public class AuthService {
                 jwtUtils.generateAccessToken(user.email())
         );
     }
-
+    /**
+     * Performs the registration of a new user.
+     *
+     * @param user {@code UserSignupDTO} object containing the user's registration information.
+     * @return {@code SuccessfulAuthenticationDTO} object with information about successful authentication after registration.
+     * @throws ConflictWithExistingResourceException If the user already exists in the system.
+     */
     public SuccessfulAuthenticationDTO signup(UserSignupDTO user) {
         UserSignupValidator.validate(user);
 

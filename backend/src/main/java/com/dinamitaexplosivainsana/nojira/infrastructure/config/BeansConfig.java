@@ -8,9 +8,20 @@ import com.dinamitaexplosivainsana.nojira.application.utils.JWTUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+/**
+ * This class provides configuration for the beans used in the application.
+ * It uses the @Configuration annotation to indicate that it is a source of bean definitions.
+ */
 @Configuration
 public class BeansConfig {
+        /**
+     * Configures the AuthService bean.
+     *
+     * @param jwtUtils JWT utility class.
+     * @param passwordEncoder Password encoder.
+     * @param userRepository User repository.
+     * @return An instance of AuthService.
+     */
     @Bean
     public AuthService authService(
             JWTUtils jwtUtils,
@@ -23,7 +34,14 @@ public class BeansConfig {
                 userRepository
         );
     }
-
+/**
+     * Configures the ProjectService bean.
+     *
+     * @param projectRepository Project repository.
+     * @param roleRepository Role repository.
+     * @param userRepository User repository.
+     * @return An instance of ProjectService.
+     */
     @Bean
     public ProjectService projectService(
             ProjectRepository projectRepository,
@@ -36,7 +54,15 @@ public class BeansConfig {
                 userRepository
         );
     }
-
+/**
+     * Configures the TaskService bean.
+     *
+     * @param projectRepository Project repository.
+     * @param roleRepository Role repository.
+     * @param statusCatalogRepository Status catalog repository.
+     * @param taskRepository Task repository.
+     * @return An instance of TaskService.
+     */
     @Bean
     public TaskService taskService(
             ProjectRepository projectRepository,
