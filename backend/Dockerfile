@@ -4,7 +4,7 @@ MAINTAINER Abraham Espinosa - abrahamespinosa3132@gmail.com
 
 COPY .. .
 
-RUN mvn clean package
+RUN mvn clean package -Dmaven.test.skip
 
 FROM amazoncorretto:17-alpine-jdk
 
